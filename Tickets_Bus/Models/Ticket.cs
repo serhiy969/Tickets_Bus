@@ -21,6 +21,7 @@ namespace Tickets_Bus.Models
         public int Numb_Seat { get; set; }
         public double Price { get; set; }
         public string Name_Surname { get; set; }
+        public string Name_Surnames { get; set; }
         public System.DateTime Date_Sale { get; set; }
     
         public virtual Route_ Route_ { get; set; }
