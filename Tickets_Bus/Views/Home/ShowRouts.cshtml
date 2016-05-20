@@ -1,0 +1,58 @@
+﻿@using Tickets_Bus.Models
+@model List<RouteViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Show routs</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            ID_Route
+        </th>
+        <th>
+            Departure
+        </th>
+        <th>
+            Date_departure
+        </th>
+        <th>
+            Name_Station
+        </th>
+        <th>
+            Date_arrival
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID_Route)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Route.Departure)
+            </td>
+            <td>
+                
+                @Html.DisplayFor(modelItem => item.Route.Date_departure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Station.Name_Station)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RouteStation.Date_arrival)
+            </td>
+
+            <td>
+                @Html.ActionLink("Get Ticket", "Create", "Tickets", new { routeId = item.ID_Route, departure = item.Route.Departure, arrival=item.Station.ID_Station},null)
+            </td>
+        </tr>
+    }
+
+</table>

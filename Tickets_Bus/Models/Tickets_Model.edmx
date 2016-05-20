@@ -1,0 +1,594 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Tickets_BussModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BUS">
+          <Key>
+            <PropertyRef Name="ID_Bus" />
+          </Key>
+          <Property Name="ID_Bus" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_Bus" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Number_Bus" Type="nchar" MaxLength="12" Nullable="false" />
+          <Property Name="Num_Seats" Type="int" />
+          <Property Name="Date_LastTO" Type="date" Nullable="false" />
+          <Property Name="Reliability" Type="char" MaxLength="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Driver">
+          <Key>
+            <PropertyRef Name="ID_Driver" />
+          </Key>
+          <Property Name="ID_Driver" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstLastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="char" MaxLength="12" />
+          <Property Name="ID_bus" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Route_">
+          <Key>
+            <PropertyRef Name="ID_Route" />
+          </Key>
+          <Property Name="ID_Route" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Departure" Type="int" Nullable="false" />
+          <Property Name="Arrival" Type="int" Nullable="false" />
+          <Property Name="Date_departure" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Date_arrival" Type="time" Precision="7" Nullable="false" />
+          <Property Name="ID_Driver" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Route_Station">
+          <Key>
+            <PropertyRef Name="ID_Station" />
+            <PropertyRef Name="ID_Route" />
+          </Key>
+          <Property Name="ID_Station" Type="int" Nullable="false" />
+          <Property Name="ID_Route" Type="int" Nullable="false" />
+          <Property Name="Date_departure" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Date_arrival" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Distance" Type="float" Nullable="false" />
+          <Property Name="Numof_Order" Type="int" />
+        </EntityType>
+        <EntityType Name="Station">
+          <Key>
+            <PropertyRef Name="ID_Station" />
+          </Key>
+          <Property Name="ID_Station" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_Station" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Region" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="ID_Ticket" />
+          </Key>
+          <Property Name="ID_Ticket" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Route" Type="int" Nullable="false" />
+          <Property Name="Departure" Type="int" Nullable="false" />
+          <Property Name="Arrival" Type="int" Nullable="false" />
+          <Property Name="Numb_Seat" Type="int" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Name_Surname" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Date_Sale" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Driver__ID_bus__1367E606">
+          <End Role="BUS" Type="Self.BUS" Multiplicity="1" />
+          <End Role="Driver" Type="Self.Driver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BUS">
+              <PropertyRef Name="ID_Bus" />
+            </Principal>
+            <Dependent Role="Driver">
+              <PropertyRef Name="ID_bus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Route___Arrival__1920BF5C">
+          <End Role="Station" Type="Self.Station" Multiplicity="1" />
+          <End Role="Route_" Type="Self.Route_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Route_">
+              <PropertyRef Name="Arrival" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Route___Departur__182C9B23">
+          <End Role="Station" Type="Self.Station" Multiplicity="1" />
+          <End Role="Route_" Type="Self.Route_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Route_">
+              <PropertyRef Name="Departure" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Route___ID_Drive__1A14E395">
+          <End Role="Driver" Type="Self.Driver" Multiplicity="1" />
+          <End Role="Route_" Type="Self.Route_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Driver">
+              <PropertyRef Name="ID_Driver" />
+            </Principal>
+            <Dependent Role="Route_">
+              <PropertyRef Name="ID_Driver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Route_Sta__ID_Ro__22AA2996">
+          <End Role="Route_" Type="Self.Route_" Multiplicity="1" />
+          <End Role="Route_Station" Type="Self.Route_Station" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Route_">
+              <PropertyRef Name="ID_Route" />
+            </Principal>
+            <Dependent Role="Route_Station">
+              <PropertyRef Name="ID_Route" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Route_Sta__ID_St__21B6055D">
+          <End Role="Station" Type="Self.Station" Multiplicity="1" />
+          <End Role="Route_Station" Type="Self.Route_Station" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Route_Station">
+              <PropertyRef Name="ID_Station" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__Arrival__35BCFE0A">
+          <End Role="Station" Type="Self.Station" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Arrival" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__Departur__34C8D9D1">
+          <End Role="Station" Type="Self.Station" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Departure" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__ID_Route__33D4B598">
+          <End Role="Route_" Type="Self.Route_" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Route_">
+              <PropertyRef Name="ID_Route" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="ID_Route" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Tickets_BussModelContainer">
+          <EntitySet Name="BUS" EntityType="Self.BUS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Driver" EntityType="Self.Driver" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Route_" EntityType="Self.Route_" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Route_Station" EntityType="Self.Route_Station" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Station" EntityType="Self.Station" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Driver__ID_bus__1367E606" Association="Self.FK__Driver__ID_bus__1367E606">
+            <End Role="BUS" EntitySet="BUS" />
+            <End Role="Driver" EntitySet="Driver" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Route___Arrival__1920BF5C" Association="Self.FK__Route___Arrival__1920BF5C">
+            <End Role="Station" EntitySet="Station" />
+            <End Role="Route_" EntitySet="Route_" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Route___Departur__182C9B23" Association="Self.FK__Route___Departur__182C9B23">
+            <End Role="Station" EntitySet="Station" />
+            <End Role="Route_" EntitySet="Route_" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Route___ID_Drive__1A14E395" Association="Self.FK__Route___ID_Drive__1A14E395">
+            <End Role="Driver" EntitySet="Driver" />
+            <End Role="Route_" EntitySet="Route_" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Route_Sta__ID_Ro__22AA2996" Association="Self.FK__Route_Sta__ID_Ro__22AA2996">
+            <End Role="Route_" EntitySet="Route_" />
+            <End Role="Route_Station" EntitySet="Route_Station" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Route_Sta__ID_St__21B6055D" Association="Self.FK__Route_Sta__ID_St__21B6055D">
+            <End Role="Station" EntitySet="Station" />
+            <End Role="Route_Station" EntitySet="Route_Station" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__Arrival__35BCFE0A" Association="Self.FK__Ticket__Arrival__35BCFE0A">
+            <End Role="Station" EntitySet="Station" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__Departur__34C8D9D1" Association="Self.FK__Ticket__Departur__34C8D9D1">
+            <End Role="Station" EntitySet="Station" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__ID_Route__33D4B598" Association="Self.FK__Ticket__ID_Route__33D4B598">
+            <End Role="Route_" EntitySet="Route_" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Tickets_BussModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BUS">
+          <Key>
+            <PropertyRef Name="ID_Bus" />
+          </Key>
+          <Property Name="ID_Bus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_Bus" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Number_Bus" Type="String" MaxLength="12" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Num_Seats" Type="Int32" />
+          <Property Name="Date_LastTO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Reliability" Type="String" MaxLength="4" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Drivers" Relationship="Self.FK__Driver__ID_bus__1367E606" FromRole="BUS" ToRole="Driver" />
+        </EntityType>
+        <EntityType Name="Driver">
+          <Key>
+            <PropertyRef Name="ID_Driver" />
+          </Key>
+          <Property Name="ID_Driver" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="12" FixedLength="true" Unicode="false" />
+          <Property Name="ID_bus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BUS" Relationship="Self.FK__Driver__ID_bus__1367E606" FromRole="Driver" ToRole="BUS" />
+          <NavigationProperty Name="Route_" Relationship="Self.FK__Route___ID_Drive__1A14E395" FromRole="Driver" ToRole="Route_" />
+        </EntityType>
+        <EntityType Name="Route_">
+          <Key>
+            <PropertyRef Name="ID_Route" />
+          </Key>
+          <Property Name="ID_Route" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Departure" Type="Int32" Nullable="false" />
+          <Property Name="Arrival" Type="Int32" Nullable="false" />
+          <Property Name="Date_departure" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Date_arrival" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="ID_Driver" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Driver" Relationship="Self.FK__Route___ID_Drive__1A14E395" FromRole="Route_" ToRole="Driver" />
+          <NavigationProperty Name="Station" Relationship="Self.FK__Route___Arrival__1920BF5C" FromRole="Route_" ToRole="Station" />
+          <NavigationProperty Name="Station1" Relationship="Self.FK__Route___Departur__182C9B23" FromRole="Route_" ToRole="Station" />
+          <NavigationProperty Name="Route_Station" Relationship="Self.FK__Route_Sta__ID_Ro__22AA2996" FromRole="Route_" ToRole="Route_Station" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Ticket__ID_Route__33D4B598" FromRole="Route_" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="Route_Station">
+          <Key>
+            <PropertyRef Name="ID_Station" />
+            <PropertyRef Name="ID_Route" />
+          </Key>
+          <Property Name="ID_Station" Type="Int32" Nullable="false" />
+          <Property Name="ID_Route" Type="Int32" Nullable="false" />
+          <Property Name="Date_departure" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Date_arrival" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Distance" Type="Int32" Nullable="false" />
+          <Property Name="Numof_Order" Type="Int32" />
+          <NavigationProperty Name="Route_" Relationship="Self.FK__Route_Sta__ID_Ro__22AA2996" FromRole="Route_Station" ToRole="Route_" />
+          <NavigationProperty Name="Station" Relationship="Self.FK__Route_Sta__ID_St__21B6055D" FromRole="Route_Station" ToRole="Station" />
+        </EntityType>
+        <EntityType Name="Station">
+          <Key>
+            <PropertyRef Name="ID_Station" />
+          </Key>
+          <Property Name="ID_Station" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_Station" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Region" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Route_" Relationship="Self.FK__Route___Arrival__1920BF5C" FromRole="Station" ToRole="Route_" />
+          <NavigationProperty Name="Route_1" Relationship="Self.FK__Route___Departur__182C9B23" FromRole="Station" ToRole="Route_" />
+          <NavigationProperty Name="Route_Station" Relationship="Self.FK__Route_Sta__ID_St__21B6055D" FromRole="Station" ToRole="Route_Station" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Ticket__Arrival__35BCFE0A" FromRole="Station" ToRole="Ticket" />
+          <NavigationProperty Name="Tickets1" Relationship="Self.FK__Ticket__Departur__34C8D9D1" FromRole="Station" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="ID_Ticket" />
+          </Key>
+          <Property Name="ID_Ticket" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Route" Type="Int32" Nullable="false" />
+          <Property Name="Departure" Type="Int32" Nullable="false" />
+          <Property Name="Arrival" Type="Int32" Nullable="false" />
+          <Property Name="Numb_Seat" Type="Int32" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Name_Surname" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date_Sale" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Route_" Relationship="Self.FK__Ticket__ID_Route__33D4B598" FromRole="Ticket" ToRole="Route_" />
+          <NavigationProperty Name="Station" Relationship="Self.FK__Ticket__Arrival__35BCFE0A" FromRole="Ticket" ToRole="Station" />
+          <NavigationProperty Name="Station1" Relationship="Self.FK__Ticket__Departur__34C8D9D1" FromRole="Ticket" ToRole="Station" />
+        </EntityType>
+        <Association Name="FK__Driver__ID_bus__1367E606">
+          <End Role="BUS" Type="Self.BUS" Multiplicity="1" />
+          <End Role="Driver" Type="Self.Driver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BUS">
+              <PropertyRef Name="ID_Bus" />
+            </Principal>
+            <Dependent Role="Driver">
+              <PropertyRef Name="ID_bus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Route___ID_Drive__1A14E395">
+          <End Role="Driver" Type="Self.Driver" Multiplicity="1" />
+          <End Role="Route_" Type="Self.Route_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Driver">
+              <PropertyRef Name="ID_Driver" />
+            </Principal>
+            <Dependent Role="Route_">
+              <PropertyRef Name="ID_Driver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Route___Arrival__1920BF5C">
+          <End Role="Station" Type="Self.Station" Multiplicity="1" />
+          <End Role="Route_" Type="Self.Route_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Route_">
+              <PropertyRef Name="Arrival" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Route___Departur__182C9B23">
+          <End Role="Station" Type="Self.Station" Multiplicity="1" />
+          <End Role="Route_" Type="Self.Route_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Route_">
+              <PropertyRef Name="Departure" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Route_Sta__ID_Ro__22AA2996">
+          <End Role="Route_" Type="Self.Route_" Multiplicity="1" />
+          <End Role="Route_Station" Type="Self.Route_Station" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Route_">
+              <PropertyRef Name="ID_Route" />
+            </Principal>
+            <Dependent Role="Route_Station">
+              <PropertyRef Name="ID_Route" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__ID_Route__33D4B598">
+          <End Role="Route_" Type="Self.Route_" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Route_">
+              <PropertyRef Name="ID_Route" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="ID_Route" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Route_Sta__ID_St__21B6055D">
+          <End Role="Station" Type="Self.Station" Multiplicity="1" />
+          <End Role="Route_Station" Type="Self.Route_Station" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Route_Station">
+              <PropertyRef Name="ID_Station" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__Arrival__35BCFE0A">
+          <End Role="Station" Type="Self.Station" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Arrival" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__Departur__34C8D9D1">
+          <End Role="Station" Type="Self.Station" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="ID_Station" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Departure" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Tickets_BussEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Buses" EntityType="Self.BUS" />
+          <EntitySet Name="Drivers" EntityType="Self.Driver" />
+          <EntitySet Name="Route_" EntityType="Self.Route_" />
+          <EntitySet Name="Route_Station" EntityType="Self.Route_Station" />
+          <EntitySet Name="Stations" EntityType="Self.Station" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Tickets" EntityType="Self.Ticket" />
+          <AssociationSet Name="FK__Driver__ID_bus__1367E606" Association="Self.FK__Driver__ID_bus__1367E606">
+            <End Role="BUS" EntitySet="Buses" />
+            <End Role="Driver" EntitySet="Drivers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Route___ID_Drive__1A14E395" Association="Self.FK__Route___ID_Drive__1A14E395">
+            <End Role="Driver" EntitySet="Drivers" />
+            <End Role="Route_" EntitySet="Route_" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Route___Arrival__1920BF5C" Association="Self.FK__Route___Arrival__1920BF5C">
+            <End Role="Station" EntitySet="Stations" />
+            <End Role="Route_" EntitySet="Route_" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Route___Departur__182C9B23" Association="Self.FK__Route___Departur__182C9B23">
+            <End Role="Station" EntitySet="Stations" />
+            <End Role="Route_" EntitySet="Route_" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Route_Sta__ID_Ro__22AA2996" Association="Self.FK__Route_Sta__ID_Ro__22AA2996">
+            <End Role="Route_" EntitySet="Route_" />
+            <End Role="Route_Station" EntitySet="Route_Station" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__ID_Route__33D4B598" Association="Self.FK__Ticket__ID_Route__33D4B598">
+            <End Role="Route_" EntitySet="Route_" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Route_Sta__ID_St__21B6055D" Association="Self.FK__Route_Sta__ID_St__21B6055D">
+            <End Role="Station" EntitySet="Stations" />
+            <End Role="Route_Station" EntitySet="Route_Station" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__Arrival__35BCFE0A" Association="Self.FK__Ticket__Arrival__35BCFE0A">
+            <End Role="Station" EntitySet="Stations" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__Departur__34C8D9D1" Association="Self.FK__Ticket__Departur__34C8D9D1">
+            <End Role="Station" EntitySet="Stations" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Tickets_BussModelContainer" CdmEntityContainer="Tickets_BussEntities">
+          <EntitySetMapping Name="Buses">
+            <EntityTypeMapping TypeName="Tickets_BussModel.BUS">
+              <MappingFragment StoreEntitySet="BUS">
+                <ScalarProperty Name="ID_Bus" ColumnName="ID_Bus" />
+                <ScalarProperty Name="Name_Bus" ColumnName="Name_Bus" />
+                <ScalarProperty Name="Number_Bus" ColumnName="Number_Bus" />
+                <ScalarProperty Name="Num_Seats" ColumnName="Num_Seats" />
+                <ScalarProperty Name="Date_LastTO" ColumnName="Date_LastTO" />
+                <ScalarProperty Name="Reliability" ColumnName="Reliability" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Drivers">
+            <EntityTypeMapping TypeName="Tickets_BussModel.Driver">
+              <MappingFragment StoreEntitySet="Driver">
+                <ScalarProperty Name="ID_Driver" ColumnName="ID_Driver" />
+                <ScalarProperty Name="FirstLastName" ColumnName="FirstLastName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="ID_bus" ColumnName="ID_bus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Route_">
+            <EntityTypeMapping TypeName="Tickets_BussModel.Route_">
+              <MappingFragment StoreEntitySet="Route_">
+                <ScalarProperty Name="ID_Route" ColumnName="ID_Route" />
+                <ScalarProperty Name="Departure" ColumnName="Departure" />
+                <ScalarProperty Name="Arrival" ColumnName="Arrival" />
+                <ScalarProperty Name="Date_departure" ColumnName="Date_departure" />
+                <ScalarProperty Name="Date_arrival" ColumnName="Date_arrival" />
+                <ScalarProperty Name="ID_Driver" ColumnName="ID_Driver" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Route_Station">
+            <EntityTypeMapping TypeName="Tickets_BussModel.Route_Station">
+              <MappingFragment StoreEntitySet="Route_Station">
+                <ScalarProperty Name="ID_Station" ColumnName="ID_Station" />
+                <ScalarProperty Name="ID_Route" ColumnName="ID_Route" />
+                <ScalarProperty Name="Date_departure" ColumnName="Date_departure" />
+                <ScalarProperty Name="Date_arrival" ColumnName="Date_arrival" />
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
+                <ScalarProperty Name="Numof_Order" ColumnName="Numof_Order" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stations">
+            <EntityTypeMapping TypeName="Tickets_BussModel.Station">
+              <MappingFragment StoreEntitySet="Station">
+                <ScalarProperty Name="ID_Station" ColumnName="ID_Station" />
+                <ScalarProperty Name="Name_Station" ColumnName="Name_Station" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Tickets_BussModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="Tickets_BussModel.Ticket">
+              <MappingFragment StoreEntitySet="Ticket">
+                <ScalarProperty Name="ID_Ticket" ColumnName="ID_Ticket" />
+                <ScalarProperty Name="ID_Route" ColumnName="ID_Route" />
+                <ScalarProperty Name="Departure" ColumnName="Departure" />
+                <ScalarProperty Name="Arrival" ColumnName="Arrival" />
+                <ScalarProperty Name="Numb_Seat" ColumnName="Numb_Seat" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Name_Surname" ColumnName="Name_Surname" />
+                <ScalarProperty Name="Date_Sale" ColumnName="Date_Sale" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

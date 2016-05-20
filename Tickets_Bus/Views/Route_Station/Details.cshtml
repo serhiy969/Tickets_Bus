@@ -1,0 +1,67 @@
+﻿@model Tickets_Bus.Models.Route_Station
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Route_Station</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_departure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_departure)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_arrival)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_arrival)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Distance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Distance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Numof_Order)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Numof_Order)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Route_.ID_Route)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Route_.ID_Route)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Station.Name_Station)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Station.Name_Station)
+        </dd>
+
+    </dl>
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

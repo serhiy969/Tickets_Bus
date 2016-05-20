@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b6e96f7a911f4f12ab154c09bbffe930" Name="Diagram1">
+        <EntityTypeShape EntityType="Tickets_BussModel.BUS" Width="1.5" PointX="1.5" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="Tickets_BussModel.Driver" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Tickets_BussModel.Route_" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Tickets_BussModel.Route_Station" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Tickets_BussModel.Station" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Tickets_BussModel.sysdiagram" Width="1.5" PointX="3.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Tickets_BussModel.Ticket" Width="1.5" PointX="8.25" PointY="4.25" IsExpanded="true" />
+        <AssociationConnector Association="Tickets_BussModel.FK__Driver__ID_bus__1367E606" ManuallyRouted="false" />
+        <AssociationConnector Association="Tickets_BussModel.FK__Route___ID_Drive__1A14E395" ManuallyRouted="false" />
+        <AssociationConnector Association="Tickets_BussModel.FK__Route___Arrival__1920BF5C" ManuallyRouted="false" />
+        <AssociationConnector Association="Tickets_BussModel.FK__Route___Departur__182C9B23" ManuallyRouted="false" />
+        <AssociationConnector Association="Tickets_BussModel.FK__Route_Sta__ID_Ro__22AA2996" ManuallyRouted="false" />
+        <AssociationConnector Association="Tickets_BussModel.FK__Ticket__ID_Route__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="Tickets_BussModel.FK__Route_Sta__ID_St__21B6055D" ManuallyRouted="false" />
+        <AssociationConnector Association="Tickets_BussModel.FK__Ticket__Arrival__35BCFE0A" ManuallyRouted="false" />
+        <AssociationConnector Association="Tickets_BussModel.FK__Ticket__Departur__34C8D9D1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
