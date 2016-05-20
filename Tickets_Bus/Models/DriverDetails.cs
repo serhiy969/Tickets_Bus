@@ -13,5 +13,6 @@ namespace Tickets_Bus.Models
         public Nullable<int> Num_Seats { get; set; }
         public System.DateTime Date_LastTO { get; set; }
         public string Reliability { get; set; }
+     
     }
 }
