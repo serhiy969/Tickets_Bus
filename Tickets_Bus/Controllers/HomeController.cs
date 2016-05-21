@@ -53,6 +53,7 @@ namespace Tickets_Bus.Controllers
 
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult About(int? Departure, int? Arrival)
         {
             ViewBag.Message = "Your application description page.";
