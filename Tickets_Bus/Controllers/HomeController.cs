@@ -28,7 +28,7 @@ namespace Tickets_Bus.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index([Bind(Include = "ID_Route,Departure,Arrival,Date_departure,")] Route_ route_)
+        public ActionResult Index([Bind(Include = "ID_Route,Departure,Arrival")] Route_ route_)
         {
             if (ModelState.IsValid)
             {
