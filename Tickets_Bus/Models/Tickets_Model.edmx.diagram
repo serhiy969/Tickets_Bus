@@ -16,7 +16,14 @@
         <AssociationConnector Association="Tickets_BussModel.FK__Route___ID_Drive__1A14E395" ManuallyRouted="false" />
         <AssociationConnector Association="Tickets_BussModel.FK__Route___Arrival__1920BF5C" ManuallyRouted="false" />
         <AssociationConnector Association="Tickets_BussModel.FK__Route___Departur__182C9B23" ManuallyRouted="false" />
-        <AssociationConnector Association="Tickets_BussModel.FK__Route_Sta__ID_Ro__22AA2996" ManuallyRouted="false" />
+        <AssociationConnector Association="Tickets_BussModel.FK__Route_Sta__ID_Ro__22AA2996" ManuallyRouted="true" >
+          <ConnectorPoint PointX="4.5" PointY="5.87474609375" />
+          <ConnectorPoint PointX="4.7475" PointY="5.87474609375" />
+          <ConnectorPoint PointX="4.7475" PointY="5.6143294270833337" />
+          <ConnectorPoint PointX="5.0025" PointY="5.6143294270833337" />
+          <ConnectorPoint PointX="5.0025" PointY="5.7848806317111565" />
+          <ConnectorPoint PointX="5.25" PointY="5.7848806317111565" />
+        </AssociationConnector>
         <AssociationConnector Association="Tickets_BussModel.FK__Ticket__ID_Route__33D4B598" ManuallyRouted="false" />
         <AssociationConnector Association="Tickets_BussModel.FK__Route_Sta__ID_St__21B6055D" ManuallyRouted="false" />
         <AssociationConnector Association="Tickets_BussModel.FK__Ticket__Arrival__35BCFE0A" ManuallyRouted="false" />

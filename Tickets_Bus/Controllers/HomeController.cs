@@ -49,6 +49,7 @@ namespace Tickets_Bus.Controllers
                      join rs in db.Route_Station on r.ID_Route equals rs.ID_Route
                      where r.Departure == Departure
                      where r.Arrival == Arrival
+
                      select new RouteViewModel() { RouteStation = rs, Route = r, ID_Route = r.ID_Route, Station = rs.Station, Daeparture = r.Departure, Date_Departure = r.Date_departure, ID_Station = rs.ID_Station, Date_Arrival = rs.Date_arrival }).ToList();
 
             return View(a);

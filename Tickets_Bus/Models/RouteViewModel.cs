@@ -19,5 +19,7 @@ namespace Tickets_Bus.Models
 
         public Route_Station RouteStation { get; set; }
         public Station Station { get; set; }
+
+        public DateTime Date_Route1 { get; set; }
     }
 }

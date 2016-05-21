@@ -37,28 +37,29 @@ namespace Tickets_Bus.Controllers
         }
 
         // GET: Tickets/Create
-        public ActionResult Create(int? routeId,int? departure,int? arrival)
+        public ActionResult Create(int? routeId, int? departure, int? arrival)
         {
-            if(routeId != null) { 
+            if (routeId != null)
+            {
                 var route = db.Route_.Find(routeId);
                 var a = (from r in db.Route_Station
-                    where r.ID_Route == routeId
-                    where r.ID_Station == arrival
-                    select new RouteStInfo() {Distance = r.Distance}).ToList();
-            
+                         where r.ID_Route == routeId
+                         where r.ID_Station == arrival
+                         select new RouteStInfo() { Distance = r.Distance }).ToList();
+
                 double sum = a[0].Distance;
 
                 ViewBag.Distance = (sum * 0.7).ToString();
 
                 var b = (from tk in db.Tickets
-                    join rt in db.Route_ on tk.ID_Route equals rt.ID_Route
-                    join dr in db.Drivers on rt.ID_Driver equals dr.ID_Driver
-                    join bs in db.Buses on dr.ID_bus equals bs.ID_Bus
-                    where tk.ID_Route == routeId
-                    select new NumbSeats() { Numb_Seat = tk.Numb_Seat, Num_Seats = bs.Num_Seats }).ToList();
+                         join rt in db.Route_ on tk.ID_Route equals rt.ID_Route
+                         join dr in db.Drivers on rt.ID_Driver equals dr.ID_Driver
+                         join bs in db.Buses on dr.ID_bus equals bs.ID_Bus
+                         where tk.ID_Route == routeId
+                         select new NumbSeats() { Numb_Seat = tk.Numb_Seat, Num_Seats = bs.Num_Seats }).ToList();
 
                 int[] seats = new int[b.Count];
-                for (int r=0;r<b.Count;r++)
+                for (int r = 0; r < b.Count; r++)
                 {
                     seats[r] = b[r].Numb_Seat;
                 }
@@ -66,7 +67,7 @@ namespace Tickets_Bus.Controllers
                 int[] all = new int[b[0].Num_Seats];
                 for (int i = 0; i < b[0].Num_Seats; i++)
                 {
-                    all[i] = i+1;
+                    all[i] = i + 1;
                 }
 
                 //int[] result = new int[all.Count()];
@@ -82,9 +83,10 @@ namespace Tickets_Bus.Controllers
             ViewBag.ID_Route = new SelectList(db.Route_, "ID_Route", "ID_Route", routeId);
             ViewBag.Arrival = new SelectList(db.Stations, "ID_Station", "Name_Station", arrival);
             ViewBag.Departure = new SelectList(db.Stations, "ID_Station", "Name_Station", departure);
-           
+
             return View();
         }
+
 
         // POST: Tickets/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
