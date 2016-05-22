@@ -13,7 +13,7 @@ namespace Tickets_Bus.Models
         public int Daeparture { get; set; }
         public int Arrival { get; set; }
         public int ID_Station { get; set; }
-        public TimeSpan Date_Arrival { get; set; }
+        public DateTime Date_Arrival { get; set; }
 
         public Route_ Route { get; set; }
 
@@ -31,5 +31,6 @@ namespace Tickets_Bus.Models
         public string StationD { get; set; }
         public string StationA { get; set; }
         public string Name_buses { get; set; }
+        public DateTime DateArrival { get; set; }
     }
 }

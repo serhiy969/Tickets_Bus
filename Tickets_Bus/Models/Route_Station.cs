@@ -20,7 +20,7 @@ namespace Tickets_Bus.Models
         public System.TimeSpan Date_arrival { get; set; }
         public int Distance { get; set; }
         public Nullable<int> Numof_Order { get; set; }
-        public System.DateTime ID_Date_Route { get; set; }
+        public DateTime ID_Date_Route { get; set; }
     
         public virtual Route_ Route_ { get; set; }
         public virtual Station Station { get; set; }

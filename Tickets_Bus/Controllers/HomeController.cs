@@ -28,22 +28,26 @@ namespace Tickets_Bus.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index([Bind(Include = "ID_Route,Departure,Arrival")] Route_ route_)
+        public ActionResult Index([Bind(Include = "ID_Route,Departure,Arrival,DateArrival")] Route_ route_)
         {
             if (ModelState.IsValid)
             {
                 db.Route_.Add(route_);
+                
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             ViewBag.Arrival = new SelectList(db.Stations, "ID_Station", "Name_Station", route_.Arrival);
             ViewBag.Departure = new SelectList(db.Stations, "ID_Station", "Name_Station", route_.Departure);
-            
+            ViewBag.Date_Route = new SelectList(db.Route_Station, "ID_Route", "ID_Date_Route",
+                route_.DateArrival);
+
+
             return View(route_);
         }
 
-        public ActionResult ShowRouts(int? Departure, int? Arrival, DateTime? Date_Route)
+        public ActionResult ShowRouts(int? Departure, int? Arrival, string DateArrival)
         {
             //var a = (from r in db.Route_
             //         join rs in db.Route_Station on r.ID_Route equals rs.ID_Route
@@ -61,6 +65,8 @@ namespace Tickets_Bus.Controllers
             //             ID_Station = rs.ID_Station,
             //             Date_Arrival = rs.Date_arrival
             //         }).ToList();
+            DateTime dt = Convert.ToDateTime(DateArrival);
+            ;
             var a = (from rou in db.Route_
                 join st1 in db.Stations on rou.Departure equals st1.ID_Station
                 join st3 in db.Stations on rou.Arrival equals st3.ID_Station
@@ -70,15 +76,15 @@ namespace Tickets_Bus.Controllers
                 join bs in db.Buses on dr.ID_bus equals bs.ID_Bus
                 where rou.Departure == Departure
                 where rts.ID_Station == Arrival
-                //where rts.ID_Date_Route == Date_Route
-                select new RouteViewModel()
+                     where rts.ID_Date_Route == dt
+                     select new RouteViewModel()
                 {
                     RouteStation = rts,
                     Route = rou,
-                    //Date_Route = rts.ID_Date_Route,
+                    Date_Route = rts.ID_Date_Route,
                     Station1 = st1.Name_Station,
                     Date_Departure = rou.Date_departure,
-                    Date_Arrival = rts.Date_arrival,
+                    Date_Arrival = rts.ID_Date_Route,
                     Station2 = st2.Name_Station,
                     Distance_ = rts.Distance,
                     Reliability_ = bs.Reliability,

@@ -36,7 +36,7 @@
     {
         <tr>
             <td>
-                @*@Html.DisplayFor(modelItem => item.Date_Route)*@
+                @Html.DisplayFor(modelItem => item.Date_Route)
                 @Html.DisplayFor(modelItem => item.Station1)
                 @Html.DisplayFor(modelItem => item.Date_Departure)
             </td>
@@ -60,7 +60,7 @@
             </td>
 
             <td>
-                @Html.ActionLink("Get Ticket", "Create", "Tickets", new { routeId = item.ID_Route, departure = item.Route.Departure, arrival=item.RouteStation.ID_Station},null)
+                @Html.ActionLink("Get Ticket", "Create", "Tickets", new { routeId = item.ID_Route, departure = item.Route.Departure, arrival=item.RouteStation.ID_Station },null)
             </td>
         </tr>
     }

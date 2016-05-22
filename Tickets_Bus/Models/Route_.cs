@@ -24,10 +24,11 @@ namespace Tickets_Bus.Models
         public int ID_Route { get; set; }
         public int Departure { get; set; }
         public int Arrival { get; set; }
-        public System.TimeSpan Date_departure { get; set; }
-        public System.TimeSpan Date_arrival { get; set; }
+        public TimeSpan Date_departure { get; set; }
+        public TimeSpan Date_arrival { get; set; }
         public int ID_Driver { get; set; }
-    
+        public DateTime DateArrival { get; set; }
+
         public virtual Driver Driver { get; set; }
         public virtual Station Station { get; set; }
         public virtual Station Station1 { get; set; }
