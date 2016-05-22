@@ -43,15 +43,51 @@ namespace Tickets_Bus.Controllers
             return View(route_);
         }
 
-        public ActionResult ShowRouts(int? Departure, int? Arrival)
+        public ActionResult ShowRouts(int? Departure, int? Arrival, DateTime? Date_Route)
         {
-            var a = (from r in db.Route_
-                     join rs in db.Route_Station on r.ID_Route equals rs.ID_Route
-                     where r.Departure == Departure
-                     where r.Arrival == Arrival
+            //var a = (from r in db.Route_
+            //         join rs in db.Route_Station on r.ID_Route equals rs.ID_Route
+            //         where r.Departure == Departure
+            //         where r.Arrival == Arrival
 
-                     select new RouteViewModel() { RouteStation = rs, Route = r, ID_Route = r.ID_Route, Station = rs.Station, Daeparture = r.Departure, Date_Departure = r.Date_departure, ID_Station = rs.ID_Station, Date_Arrival = rs.Date_arrival }).ToList();
-
+            //         select new RouteViewModel()
+            //         {
+            //             RouteStation = rs,
+            //             Route = r,
+            //             ID_Route = r.ID_Route,
+            //             Station = rs.Station,
+            //             Daeparture = r.Departure,
+            //             Date_Departure = r.Date_departure,
+            //             ID_Station = rs.ID_Station,
+            //             Date_Arrival = rs.Date_arrival
+            //         }).ToList();
+            var a = (from rou in db.Route_
+                join st1 in db.Stations on rou.Departure equals st1.ID_Station
+                join st3 in db.Stations on rou.Arrival equals st3.ID_Station
+                join rts in db.Route_Station on rou.ID_Route equals rts.ID_Route
+                join st2 in db.Stations on rts.ID_Station equals st2.ID_Station
+                join dr in db.Drivers on rou.ID_Driver equals dr.ID_Driver
+                join bs in db.Buses on dr.ID_bus equals bs.ID_Bus
+                where rou.Departure == Departure
+                where rts.ID_Station == Arrival
+                where rts.ID_Date_Route == Date_Route
+                select new RouteViewModel()
+                {
+                    RouteStation = rts,
+                    Route = rou,
+                    Date_Route = rts.ID_Date_Route,
+                    Station1 = st1.Name_Station,
+                    Date_Departure = rou.Date_departure,
+                    Date_Arrival = rts.Date_arrival,
+                    Station2 = st2.Name_Station,
+                    Distance_ = rts.Distance,
+                    Reliability_ = bs.Reliability,
+                    ID_Route = rou.ID_Route,
+                    StationD = st1.Name_Station,
+                    StationA = st3.Name_Station,
+                    Name_buses = bs.Name_Bus
+                }).ToList();
+                    
             return View(a);
 
         }

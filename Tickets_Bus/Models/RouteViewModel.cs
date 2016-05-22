@@ -19,7 +19,17 @@ namespace Tickets_Bus.Models
 
         public Route_Station RouteStation { get; set; }
         public Station Station { get; set; }
+        public BUS Bus { get; set; }
+        public Driver DRivers { get; set; }
 
         public DateTime Date_Route { get; set; }
+        public string Station1 { get; set; }
+        public string Station2 { get; set; }
+        public string Station3 { get; set; }
+        public int Distance_ { get; set; }
+        public string Reliability_ { get; set; }
+        public string StationD { get; set; }
+        public string StationA { get; set; }
+        public string Name_buses { get; set; }
     }
 }

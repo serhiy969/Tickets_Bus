@@ -32,5 +32,6 @@ namespace Tickets_Bus.Models
         public virtual DbSet<Station> Stations { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
+        public object Station { get; internal set; }
     }
 }
