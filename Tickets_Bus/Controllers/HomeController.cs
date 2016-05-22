@@ -70,12 +70,12 @@ namespace Tickets_Bus.Controllers
                 join bs in db.Buses on dr.ID_bus equals bs.ID_Bus
                 where rou.Departure == Departure
                 where rts.ID_Station == Arrival
-                where rts.ID_Date_Route == Date_Route
+                //where rts.ID_Date_Route == Date_Route
                 select new RouteViewModel()
                 {
                     RouteStation = rts,
                     Route = rou,
-                    Date_Route = rts.ID_Date_Route,
+                    //Date_Route = rts.ID_Date_Route,
                     Station1 = st1.Name_Station,
                     Date_Departure = rou.Date_departure,
                     Date_Arrival = rts.Date_arrival,

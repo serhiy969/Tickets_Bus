@@ -10,19 +10,22 @@
 <table class="table">
     <tr>
         <th>
-            ID_Route
+            Початок поїздки
         </th>
         <th>
-            Departure
+            Кінець поїздки
         </th>
         <th>
-            Date_departure
+            Відстань
         </th>
         <th>
-            Name_Station
+            Надійність
         </th>
         <th>
-            Date_arrival
+            Маршрут автобуса
+        </th>
+        <th>
+            Марка автобуса
         </th>
         <th>
 
@@ -33,24 +36,31 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ID_Route)
+                @*@Html.DisplayFor(modelItem => item.Date_Route)*@
+                @Html.DisplayFor(modelItem => item.Station1)
+                @Html.DisplayFor(modelItem => item.Date_Departure)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Route.Departure)
+                @Html.DisplayFor(modelItem => item.Date_Arrival)
+                @Html.DisplayFor(modelItem => item.Station2)
             </td>
             <td>
-                
-                @Html.DisplayFor(modelItem => item.Route.Date_departure)
+                @Html.DisplayFor(modelItem => item.Distance_)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Station.Name_Station)
+                @Html.DisplayFor(modelItem => item.Reliability_)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RouteStation.Date_arrival)
+                @Html.DisplayFor(modelItem => item.Route.ID_Route)
+                @Html.DisplayFor(modelItem => item.StationD)
+                @Html.DisplayFor(modelItem => item.StationA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name_buses)
             </td>
 
             <td>
-                @Html.ActionLink("Get Ticket", "Create", "Tickets", new { routeId = item.ID_Route, departure = item.Route.Departure, arrival=item.Station.ID_Station},null)
+                @Html.ActionLink("Get Ticket", "Create", "Tickets", new { routeId = item.ID_Route, departure = item.Route.Departure, arrival=item.RouteStation.ID_Station},null)
             </td>
         </tr>
     }
