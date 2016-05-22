@@ -55,7 +55,7 @@ namespace Tickets_Bus.Controllers
                          join rt in db.Route_ on tk.ID_Route equals rt.ID_Route
                          join dr in db.Drivers on rt.ID_Driver equals dr.ID_Driver
                          join bs in db.Buses on dr.ID_bus equals bs.ID_Bus
-                         where tk.ID_Route == 2
+                         where tk.ID_Route == routeId
                          select new NumbSeats() { Numb_Seat = tk.Numb_Seat, Num_Seats = bs.Num_Seats }).ToList();
 
                 int[] seats = new int[b.Count];

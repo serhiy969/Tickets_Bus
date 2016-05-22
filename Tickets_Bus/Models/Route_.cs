@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Tickets_Bus.Models
 {
     using System;
@@ -27,6 +29,9 @@ namespace Tickets_Bus.Models
         public TimeSpan Date_departure { get; set; }
         public TimeSpan Date_arrival { get; set; }
         public int ID_Driver { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Дата відправлення")]
         public DateTime DateArrival { get; set; }
 
         public virtual Driver Driver { get; set; }
