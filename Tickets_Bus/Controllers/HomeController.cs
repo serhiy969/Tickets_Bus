@@ -84,7 +84,7 @@ namespace Tickets_Bus.Controllers
                     Date_Route = rts.ID_Date_Route,
                     Station1 = st1.Name_Station,
                     Date_Departure = rou.Date_departure,
-                    Date_Arrival = rts.ID_Date_Route,
+                    Date_Arrival = rts.Date_arrival,
                     Station2 = st2.Name_Station,
                     Distance_ = rts.Distance,
                     Reliability_ = bs.Reliability,
