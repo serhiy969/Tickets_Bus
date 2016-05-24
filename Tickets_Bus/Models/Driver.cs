@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Tickets_Bus.Models
 {
     using System;
@@ -19,10 +21,14 @@ namespace Tickets_Bus.Models
         {
             this.Route_ = new HashSet<Route_>();
         }
-    
+
+        [Display(Name = "Код водія")]
         public int ID_Driver { get; set; }
+        [Display(Name = "ПІБ")]
         public string FirstLastName { get; set; }
+        [Display(Name = "Номер телефона")]
         public string Phone { get; set; }
+        [Display(Name = "Код атобуса")]
         public int ID_bus { get; set; }
     
         public virtual BUS BUS { get; set; }

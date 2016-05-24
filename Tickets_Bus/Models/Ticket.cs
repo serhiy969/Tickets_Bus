@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Tickets_Bus.Models
 {
     using System;
@@ -14,13 +16,21 @@ namespace Tickets_Bus.Models
     
     public partial class Ticket
     {
+        [Display(Name = "Код Квитка")]
         public int ID_Ticket { get; set; }
+        [Display(Name = "Код Рейса")]
         public int ID_Route { get; set; }
+        [Display(Name = "Пункт відправлення")]
         public int Departure { get; set; }
+        [Display(Name = "Пункт прибуття")]
         public int Arrival { get; set; }
+        [Display(Name = "Місце посадки")]
         public int Numb_Seat { get; set; }
+        [Display(Name = "Ціна")]
         public double Price { get; set; }
+        [Display(Name = "ПІБ")]
         public string Name_Surname { get; set; }
+        [Display(Name = "Дата відправлення")]
         public System.DateTime Date_Sale { get; set; }
     
         public virtual Route_ Route_ { get; set; }

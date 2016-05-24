@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Tickets_Bus.Models
 {
     using System;
@@ -23,9 +25,11 @@ namespace Tickets_Bus.Models
             this.Tickets = new HashSet<Ticket>();
             this.Tickets1 = new HashSet<Ticket>();
         }
-    
+        [Display(Name = "Код Станції")]
         public int ID_Station { get; set; }
+        [Display(Name = "Назва Станції")]
         public string Name_Station { get; set; }
+        [Display(Name = "Регіон")]
         public string Region { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

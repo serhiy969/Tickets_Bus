@@ -22,14 +22,17 @@ namespace Tickets_Bus.Models
             this.Route_Station = new HashSet<Route_Station>();
             this.Tickets = new HashSet<Ticket>();
         }
-    
+        [Display(Name = "Код Рейсу")]
         public int ID_Route { get; set; }
         [Display(Name = "Пункт відправлення")]
         public int Departure { get; set; }
         [Display(Name = "Пункт прибуття")]
         public int Arrival { get; set; }
+        [Display(Name = "Час відправлення")]
         public TimeSpan Date_departure { get; set; }
+        [Display(Name = "Час прибуття")]
         public TimeSpan Date_arrival { get; set; }
+        [Display(Name = "Код водія")]
         public int ID_Driver { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]

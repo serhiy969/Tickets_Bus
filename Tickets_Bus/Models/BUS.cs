@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Tickets_Bus.Models
 {
     using System;
@@ -19,12 +21,18 @@ namespace Tickets_Bus.Models
         {
             this.Drivers = new HashSet<Driver>();
         }
-    
+
+        [Display(Name = "Код атобуса")]
         public int ID_Bus { get; set; }
+        [Display(Name = "Назва атобуса")]
         public string Name_Bus { get; set; }
+        [Display(Name = "Номер атобуса")]
         public string Number_Bus { get; set; }
+        [Display(Name = "Кількість місць")]
         public int Num_Seats { get; set; }
+        [Display(Name = "Дата ТО")]
         public System.DateTime Date_LastTO { get; set; }
+        [Display(Name = "Надійність")]
         public string Reliability { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
