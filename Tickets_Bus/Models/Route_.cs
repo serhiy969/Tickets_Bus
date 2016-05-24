@@ -24,7 +24,9 @@ namespace Tickets_Bus.Models
         }
     
         public int ID_Route { get; set; }
+        [Display(Name = "Пункт відправлення")]
         public int Departure { get; set; }
+        [Display(Name = "Пункт прибуття")]
         public int Arrival { get; set; }
         public TimeSpan Date_departure { get; set; }
         public TimeSpan Date_arrival { get; set; }

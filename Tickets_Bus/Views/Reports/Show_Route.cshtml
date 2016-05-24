@@ -1,0 +1,68 @@
+﻿@using Tickets_Bus.Models
+@model List<RouteViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Маршрути</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Початок поїздки
+        </th>
+        <th>
+            Кінець поїздки
+        </th>
+        <th>
+            Відстань
+        </th>
+        <th>
+            Надійність
+        </th>
+        <th>
+            Маршрут автобуса
+        </th>
+        <th>
+            Марка автобуса
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_Route)
+                @Html.DisplayFor(modelItem => item.Station1)
+                @Html.DisplayFor(modelItem => item.Date_Departure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_Arrival)
+                @Html.DisplayFor(modelItem => item.Station2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Distance_)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reliability_)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Route.ID_Route)
+                @Html.DisplayFor(modelItem => item.StationD)
+                @Html.DisplayFor(modelItem => item.StationA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name_buses)
+            </td>
+
+            @*<td>
+                @Html.ActionLink("Get Ticket", "Create", "Tickets", new { routeId = item.ID_Route, departure = item.Route.Departure, arrival=item.RouteStation.ID_Station },null)
+            </td>*@
+        </tr>
+    }
+
+</table>

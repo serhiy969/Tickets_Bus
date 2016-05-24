@@ -176,6 +176,7 @@
     <Compile Include="Controllers\DriversController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\Route_Controller.cs" />
     <Compile Include="Controllers\Route_StationController.cs" />
     <Compile Include="Controllers\StationsController.cs" />
@@ -230,6 +231,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Tickets_BussDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Tickets_BussDataSet.xsd</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -369,6 +375,21 @@
     <Content Include="Views\Route_Station\Edit.cshtml" />
     <Content Include="Views\Route_Station\Index.cshtml" />
     <Content Include="Views\Home\ShowRouts.cshtml" />
+    <Content Include="Tickets_BussDataSet.xsc">
+      <DependentUpon>Tickets_BussDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="Tickets_BussDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Tickets_BussDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Tickets_BussDataSet.xss">
+      <DependentUpon>Tickets_BussDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\Show_Route.cshtml" />
+    <Content Include="Views\Reports\Details_Bus.cshtml" />
+    <Content Include="Views\Reports\Show_Bus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
