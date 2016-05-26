@@ -45,5 +45,7 @@ namespace Tickets_Bus.Models
         public string Name_buses { get; set; }
         [Display(Name = "Дата прибуття")]
         public DateTime DateArrival { get; set; }
+        [Display(Name = "Код Квитка")]
+        public int ID_Ticket { get; set; }
     }
 }

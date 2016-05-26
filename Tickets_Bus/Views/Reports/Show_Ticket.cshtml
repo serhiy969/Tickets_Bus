@@ -1,5 +1,6 @@
-﻿@using Tickets_Bus.Models
-@model List<RouteViewModel>
+﻿@*@using Tickets_Bus.Models
+@model List<RouteViewModel>*@   
+@model IQueryable<IGrouping<Tickets_Bus.Models.Route_, Tickets_Bus.Models.Ticket>>
 
 @{
     ViewBag.Title = "Index";
@@ -31,8 +32,19 @@
 
         </th>
     </tr>
+</table>
+    @foreach (var key in Model)
+    {
+        @Html.DisplayFor(route => key.Key.ID_Route)
+        <a>Count @key.Count() </a>
+        foreach (var item in key)
+        {
+            @Html.DisplayFor(route => item.Station.Name_Station)
+            @Html.DisplayFor(route => item.ID_Ticket)
+        }
+    }
 
-    @foreach (var item in Model)
+    @*@foreach (var item in Model)
     {
         <tr>
             <td>
@@ -61,8 +73,8 @@
 
             @*<td>
                 @Html.ActionLink("Get Ticket", "Create", "Tickets", new { routeId = item.ID_Route, departure = item.Route.Departure, arrival=item.RouteStation.ID_Station },null)
-            </td>*@
+            </td>
         </tr>
-    }
+    }*@
 
-</table>
+

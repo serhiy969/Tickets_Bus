@@ -93,38 +93,13 @@ namespace Tickets_Bus.Controllers
                     StationA = st3.Name_Station,
                     Name_buses = bs.Name_Bus
                 }).ToList();
-            //ViewBag.info = (from rou in db.Route_
-            //                join st1 in db.Stations on rou.Departure equals st1.ID_Station
-            //                join st3 in db.Stations on rou.Arrival equals st3.ID_Station
-            //                join rts in db.Route_Station on rou.ID_Route equals rts.ID_Route
-            //                join st2 in db.Stations on rts.ID_Station equals st2.ID_Station
-            //                join dr in db.Drivers on rou.ID_Driver equals dr.ID_Driver
-            //                join bs in db.Buses on dr.ID_bus equals bs.ID_Bus
-            //                where rou.Departure == Departure
-            //                where rts.ID_Station == Arrival
-            //                where rts.ID_Date_Route == dt
-            //                select new RouteViewModel()
-            //                {
-            //                    RouteStation = rts,
-            //                    Route = rou,
-            //                    Date_Route = rts.ID_Date_Route,
-            //                    Station1 = st1.Name_Station,
-            //                    Date_Departure = rou.Date_departure,
-            //                    Date_Arrival = rts.Date_arrival,
-            //                    Station2 = st2.Name_Station,
-            //                    Distance_ = rts.Distance,
-            //                    Reliability_ = bs.Reliability,
-            //                    ID_Route = rou.ID_Route,
-            //                    StationD = st1.Name_Station,
-            //                    StationA = st3.Name_Station,
-            //                    Name_buses = bs.Name_Bus
-            //                }).ToList();
+           
 
             return View(a);
 
         }
 
-        public ActionResult Create(int? routeId, int? departure, int? arrival)
+        public ActionResult Create(int? routeId, int? departure, int? arrival, string DateArrival)
         {
             if (routeId != null)
             {
@@ -144,6 +119,14 @@ namespace Tickets_Bus.Controllers
                          join bs in db.Buses on dr.ID_bus equals bs.ID_Bus
                          where tk.ID_Route == routeId
                          select new NumbSeats() { Numb_Seat = tk.Numb_Seat, Num_Seats = bs.Num_Seats }).ToList();
+                //var b = (from tk in db.Tickets
+                //         join rt in db.Route_ on tk.ID_Route equals rt.ID_Route
+                //         join rts in db.Route_Station on rt.ID_Route equals  rts.ID_Route
+                //         join dr in db.Drivers on rt.ID_Driver equals dr.ID_Driver
+                //         join bs in db.Buses on dr.ID_bus equals bs.ID_Bus
+                //         where tk.ID_Route == routeId
+                //         where tk.Date_Sale == DateArrival
+                //         select new NumbSeats() { Numb_Seat = tk.Numb_Seat, Num_Seats = bs.Num_Seats }).ToList();
 
                 int[] seats = new int[b.Count];
                 for (int r = 0; r < b.Count; r++)
@@ -157,7 +140,7 @@ namespace Tickets_Bus.Controllers
                     all[i] = i + 1;
                 }
 
-                //int[] result = new int[all.Count()];
+                int[] result = new int[all.Count()];
                 foreach (var tr in all)
                 {
                     if (seats.Contains(tr))
@@ -170,7 +153,8 @@ namespace Tickets_Bus.Controllers
             ViewBag.ID_Route = new SelectList(db.Route_, "ID_Route", "ID_Route", routeId);
             ViewBag.Arrival = new SelectList(db.Stations, "ID_Station", "Name_Station", arrival);
             ViewBag.Departure = new SelectList(db.Stations, "ID_Station", "Name_Station", departure);
-
+            //ViewBag.Date_Route = new SelectList(db.Route_Station, "ID_Route", "ID_Date_Route", DateArrival);
+            
             return View();
         }
 
@@ -195,8 +179,20 @@ namespace Tickets_Bus.Controllers
             return View(ticket);
         }
 
+        public ActionResult Details(int? id, int? routeId, int? departure, int? arrival, string DateArrival)
+        {
+            if (routeId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Route_ route_ = db.Route_.Find(id);
+            if (route_ == null)
+            {
+                return HttpNotFound();
+            }
+            return View(route_);
+        }
 
-        
         public ActionResult About(int? Departure, int? Arrival)
         {
             ViewBag.Message = "Your application description page.";

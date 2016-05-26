@@ -95,7 +95,6 @@ namespace Tickets_Bus.Controllers
                          StationA = st3.Name_Station,
                          Name_buses = bs.Name_Bus
                      }).ToList();
-
             return View(a);
 
         }
@@ -194,22 +193,28 @@ namespace Tickets_Bus.Controllers
             DateTime dt = Convert.ToDateTime(DateArrival);
             ;
             var a = from tk in db.Tickets
-                join st1 in db.Stations on tk.Departure equals st1.ID_Station
-                join st2 in db.Stations on tk.Arrival equals st2.ID_Station
-                join rou in db.Route_ on tk.ID_Route equals rou.ID_Route
-                join driv in db.Drivers on rou.ID_Driver equals driv.ID_Driver
-                join bus in db.Buses on driv.ID_bus equals bus.ID_Bus
-                join rts in db.Route_Station on tk.Date_Sale equals rts.ID_Date_Route
-                where rou.Departure == Departure
-                where rts.ID_Station == Arrival
-                where rts.ID_Date_Route == dt
-                group tk by tk.ID_Ticket
+                        //join st1 in db.Stations on tk.Departure equals st1.ID_Station
+                        //join st2 in db.Stations on tk.Arrival equals st2.ID_Station
+                       // join rou in db.Route_ on tk.ID_Route equals rou.ID_Route
+                        //join driv in db.Drivers on rou.ID_Driver equals driv.ID_Driver
+                        //join bus in db.Buses on driv.ID_bus equals bus.ID_Bus
+                        //join rts in db.Route_Station on tk.Date_Sale equals rts.ID_Date_Route
+                        //select tk;
+                    where tk.Departure == Departure
+                    where tk.Arrival == Arrival
+                    where tk.Date_Sale == dt
+                group tk by tk.Route_
                 into tiket
                 orderby tiket.Count() descending
                 select tiket;
 
-                 var id_ = a.ToList();
+            //select new RouteViewModel()
+            //{
+            //    ID_Ticket = tk.ID_Ticket,
+            //    ID_Route = tk.ID_Route
+            //}).ToList();
 
+            //var info = a.Count();
             //foreach (var count in a.OrderBy(x => x.Count))
             //{
             //    var c = count.Count.ToString();
