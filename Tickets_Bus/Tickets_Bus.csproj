@@ -390,6 +390,9 @@
     <Content Include="Views\Reports\Show_Route.cshtml" />
     <Content Include="Views\Reports\Details_Bus.cshtml" />
     <Content Include="Views\Reports\Show_Bus.cshtml" />
+    <Content Include="Views\Home\Create.cshtml" />
+    <Content Include="Views\Reports\Details_Ticket.cshtml" />
+    <Content Include="Views\Reports\Show_Ticket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

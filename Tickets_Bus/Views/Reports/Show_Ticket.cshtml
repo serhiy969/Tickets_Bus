@@ -5,7 +5,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Рейси</h2>
+<h2>Маршрути</h2>
 
 <table class="table">
     <tr>
@@ -59,9 +59,9 @@
                 @Html.DisplayFor(modelItem => item.Name_buses)
             </td>
 
-            <td>
-                @Html.ActionLink("Отримати квиток", "Create", "Home", new { routeId = item.ID_Route, departure = item.Route.Departure, arrival=item.RouteStation.ID_Station },null)
-            </td>
+            @*<td>
+                @Html.ActionLink("Get Ticket", "Create", "Tickets", new { routeId = item.ID_Route, departure = item.Route.Departure, arrival=item.RouteStation.ID_Station },null)
+            </td>*@
         </tr>
     }
 

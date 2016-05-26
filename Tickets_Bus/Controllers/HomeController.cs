@@ -93,12 +93,110 @@ namespace Tickets_Bus.Controllers
                     StationA = st3.Name_Station,
                     Name_buses = bs.Name_Bus
                 }).ToList();
-                    
+            //ViewBag.info = (from rou in db.Route_
+            //                join st1 in db.Stations on rou.Departure equals st1.ID_Station
+            //                join st3 in db.Stations on rou.Arrival equals st3.ID_Station
+            //                join rts in db.Route_Station on rou.ID_Route equals rts.ID_Route
+            //                join st2 in db.Stations on rts.ID_Station equals st2.ID_Station
+            //                join dr in db.Drivers on rou.ID_Driver equals dr.ID_Driver
+            //                join bs in db.Buses on dr.ID_bus equals bs.ID_Bus
+            //                where rou.Departure == Departure
+            //                where rts.ID_Station == Arrival
+            //                where rts.ID_Date_Route == dt
+            //                select new RouteViewModel()
+            //                {
+            //                    RouteStation = rts,
+            //                    Route = rou,
+            //                    Date_Route = rts.ID_Date_Route,
+            //                    Station1 = st1.Name_Station,
+            //                    Date_Departure = rou.Date_departure,
+            //                    Date_Arrival = rts.Date_arrival,
+            //                    Station2 = st2.Name_Station,
+            //                    Distance_ = rts.Distance,
+            //                    Reliability_ = bs.Reliability,
+            //                    ID_Route = rou.ID_Route,
+            //                    StationD = st1.Name_Station,
+            //                    StationA = st3.Name_Station,
+            //                    Name_buses = bs.Name_Bus
+            //                }).ToList();
+
             return View(a);
 
         }
 
-        [Authorize(Roles = "admin")]
+        public ActionResult Create(int? routeId, int? departure, int? arrival)
+        {
+            if (routeId != null)
+            {
+                var route = db.Route_.Find(routeId);
+                var a = (from r in db.Route_Station
+                         where r.ID_Route == routeId
+                         where r.ID_Station == arrival
+                         select new RouteStInfo() { Distance = r.Distance }).ToList();
+
+                double sum = a[0].Distance;
+
+                ViewBag.Distance = (sum * 0.7).ToString();
+
+                var b = (from tk in db.Tickets
+                         join rt in db.Route_ on tk.ID_Route equals rt.ID_Route
+                         join dr in db.Drivers on rt.ID_Driver equals dr.ID_Driver
+                         join bs in db.Buses on dr.ID_bus equals bs.ID_Bus
+                         where tk.ID_Route == routeId
+                         select new NumbSeats() { Numb_Seat = tk.Numb_Seat, Num_Seats = bs.Num_Seats }).ToList();
+
+                int[] seats = new int[b.Count];
+                for (int r = 0; r < b.Count; r++)
+                {
+                    seats[r] = b[r].Numb_Seat;
+                }
+
+                int[] all = new int[b[0].Num_Seats];
+                for (int i = 0; i < b[0].Num_Seats; i++)
+                {
+                    all[i] = i + 1;
+                }
+
+                //int[] result = new int[all.Count()];
+                foreach (var tr in all)
+                {
+                    if (seats.Contains(tr))
+                    {
+                        all = all.Where(w => w != tr).ToArray();
+                    }
+                }
+                ViewBag.Free = new SelectList(all);
+            }
+            ViewBag.ID_Route = new SelectList(db.Route_, "ID_Route", "ID_Route", routeId);
+            ViewBag.Arrival = new SelectList(db.Stations, "ID_Station", "Name_Station", arrival);
+            ViewBag.Departure = new SelectList(db.Stations, "ID_Station", "Name_Station", departure);
+
+            return View();
+        }
+
+
+        // POST: Tickets/Create
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "ID_Ticket,ID_Route,Departure,Arrival,Numb_Seat,Price,Name_Surname,Date_Sale")] Ticket ticket)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Tickets.Add(ticket);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.ID_Route = new SelectList(db.Route_, "ID_Route", "ID_Route", ticket.ID_Route);
+            ViewBag.Arrival = new SelectList(db.Stations, "ID_Station", "Name_Station", ticket.Arrival);
+            ViewBag.Departure = new SelectList(db.Stations, "ID_Station", "Name_Station", ticket.Departure);
+            return View(ticket);
+        }
+
+
+        
         public ActionResult About(int? Departure, int? Arrival)
         {
             ViewBag.Message = "Your application description page.";

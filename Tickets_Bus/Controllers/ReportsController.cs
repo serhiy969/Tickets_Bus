@@ -102,15 +102,28 @@ namespace Tickets_Bus.Controllers
         //Перегляд Автобусів по кількості місць
         public ActionResult Details_Bus()
         {
-            var buss = db.Buses.Include(r => r.Name_Bus).Include(r => r.ID_Bus);
-            ViewBag.Num_Seats = new SelectList(db.Buses, "ID_Bus", "Num_Seats");     
+
+            //var buss = db.Buses.Include(r => r.ID_Bus).Include(r => r.Num_Seats).Distinct().ToList();
+            ViewBag.Num_Seats = new SelectList(db.Buses.Distinct(), "Num_Seats", "Num_Seats").Distinct().ToList(); 
+
+            //var buss = (from b in db.Buses
+            //            select new DriverDetails
+            //            {
+                            
+            //                Num_Seats = b.Num_Seats
+
+            //            })
+            //    .ToList();
+            //var ok = buss.Distinct();
+            //ViewBag.Num_Seats = ok;
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Details_Bus([Bind(Include = "Num_Seats")] BUS buss)
+        //[ActionName("Details_Bus2")]
+        public ActionResult Details_Bus([Bind(Include = "ID_Bus,Name_Bus,Number_Bus,Num_Seats,Date_LastTO,Reliability")] BUS buss)
         {
             if (ModelState.IsValid)
             {
@@ -127,10 +140,10 @@ namespace Tickets_Bus.Controllers
             return View(buss);
         }
 
-        public ActionResult Show_Bus(int? Num_Seats)
+        public ActionResult Show_Bus(BUS model)
         {
             var a = (from r in db.Buses
-                     where r.Num_Seats == Num_Seats
+                     where r.Num_Seats == model.Num_Seats
 
                      select new DriverDetails()
                      {
@@ -143,6 +156,65 @@ namespace Tickets_Bus.Controllers
                      }).ToList();
             ;
            
+            return View(a);
+
+        }
+        //Звіт про кількість місць на рейс
+        public ActionResult Details_Ticket()
+        {
+            var rout = db.Route_.Include(r => r.Station).Include(r => r.Station1);
+            ViewBag.Arrival = new SelectList(db.Stations, "ID_Station", "Name_Station");
+            ViewBag.Departure = new SelectList(db.Stations, "ID_Station", "Name_Station");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details_Ticket([Bind(Include = "ID_Route,Departure,Arrival,DateArrival")] Route_ rout)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Route_.Add(rout);
+
+                db.SaveChanges();
+                return RedirectToAction("Details_Ticket");
+            }
+
+            ViewBag.Arrival = new SelectList(db.Stations, "ID_Station", "Name_Station", rout.Arrival);
+            ViewBag.Departure = new SelectList(db.Stations, "ID_Station", "Name_Station", rout.Departure);
+            ViewBag.Date_Route = new SelectList(db.Route_Station, "ID_Route", "ID_Date_Route",rout.DateArrival);
+
+
+            return View(rout);
+        }
+
+        public ActionResult Show_Ticket(int? Departure, int? Arrival, string DateArrival)
+        {
+           
+            DateTime dt = Convert.ToDateTime(DateArrival);
+            ;
+            var a = from tk in db.Tickets
+                join st1 in db.Stations on tk.Departure equals st1.ID_Station
+                join st2 in db.Stations on tk.Arrival equals st2.ID_Station
+                join rou in db.Route_ on tk.ID_Route equals rou.ID_Route
+                join driv in db.Drivers on rou.ID_Driver equals driv.ID_Driver
+                join bus in db.Buses on driv.ID_bus equals bus.ID_Bus
+                join rts in db.Route_Station on tk.Date_Sale equals rts.ID_Date_Route
+                where rou.Departure == Departure
+                where rts.ID_Station == Arrival
+                where rts.ID_Date_Route == dt
+                group tk by tk.ID_Ticket
+                into tiket
+                orderby tiket.Count() descending
+                select tiket;
+
+                 var id_ = a.ToList();
+
+            //foreach (var count in a.OrderBy(x => x.Count))
+            //{
+            //    var c = count.Count.ToString();
+            //}
+
             return View(a);
 
         }
