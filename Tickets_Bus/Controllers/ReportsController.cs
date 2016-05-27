@@ -195,11 +195,11 @@ namespace Tickets_Bus.Controllers
             var a = from tk in db.Tickets
                         //join st1 in db.Stations on tk.Departure equals st1.ID_Station
                         //join st2 in db.Stations on tk.Arrival equals st2.ID_Station
-                       // join rou in db.Route_ on tk.ID_Route equals rou.ID_Route
+                       //join rou in db.Route_ on tk.ID_Route equals rou.ID_Route
                         //join driv in db.Drivers on rou.ID_Driver equals driv.ID_Driver
                         //join bus in db.Buses on driv.ID_bus equals bus.ID_Bus
-                        //join rts in db.Route_Station on tk.Date_Sale equals rts.ID_Date_Route
-                        //select tk;
+                        //join rts in db.Route_Station on tk.ID_Route equals rts.ID_Route
+                    //select tk;
                     where tk.Departure == Departure
                     where tk.Arrival == Arrival
                     where tk.Date_Sale == dt
@@ -207,7 +207,7 @@ namespace Tickets_Bus.Controllers
                 into tiket
                 orderby tiket.Count() descending
                 select tiket;
-
+            ViewBag._Daate = dt.Date;
             //select new RouteViewModel()
             //{
             //    ID_Ticket = tk.ID_Ticket,

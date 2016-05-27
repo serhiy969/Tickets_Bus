@@ -20,6 +20,8 @@
                     @Html.DisplayFor(route => key.Key.Station1.Name_Station)
                     @Html.DisplayFor(route => key.Key.Station.Name_Station)
                 </dd>
+                <dt> Дата:</dt>
+                <dd>@ViewBag._Daate</dd>
                 <dt>
                     Час:відправлення
                         прибуття
@@ -71,9 +73,6 @@
 <table class="table">
     <tr>
         <th>
-            Дата поїздки
-        </th>
-        <th>
             Номер квитка
         </th>
         <th>
@@ -92,7 +91,7 @@
     {
         <a> <h4>Кількість проданих квитків: @key.Count() </h4> </a>
             @*<tr>
-            <td>
+                <td>
                 @Html.DisplayFor(route => key.Key.ID_Route)
             </td>
             <td>
@@ -100,14 +99,13 @@
                 @Html.DisplayFor(route => key.Key.Driver.BUS.Number_Bus)
 
             </td>
-
+                <td>
+                    @Html.DisplayFor(route => )
+                </td>
         </tr>*@
         foreach (var item in key)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(route => item.Date_Sale)
-                </td>
                 <td>
                     @Html.DisplayFor(route => item.ID_Ticket)
                 </td>
