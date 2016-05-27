@@ -3,78 +3,136 @@
 @model IQueryable<IGrouping<Tickets_Bus.Models.Route_, Tickets_Bus.Models.Ticket>>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Звіт по кількості проданих квитків на окремий рейс";
 }
-
-<h2>Маршрути</h2>
-
+@*@Html.ActionLink("Побудувати новий звіт", "Details_Ticket")<br>*@
+<h3>Звіт по кількості проданих квитків на окремий рейс </h3>
+<h4> Інформація про рейс</h4>
+@foreach (var key in Model)
+    {
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    Рейс:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(route => key.Key.ID_Route)
+                    @Html.DisplayFor(route => key.Key.Station1.Name_Station)
+                    @Html.DisplayFor(route => key.Key.Station.Name_Station)
+                </dd>
+                <dt>
+                    Час:відправлення
+                        прибуття
+                </dt>
+                <dd>
+                    @Html.DisplayFor(route => key.Key.Date_departure) <br/>
+                    @Html.DisplayFor(route => key.Key.Date_arrival)
+                </dd>
+                <dt>
+                    ПІБ Водія:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(route => key.Key.Driver.FirstLastName)
+                </dd>
+                <dt>
+                    Модель Атобуса:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(route => key.Key.Driver.BUS.Name_Bus)
+                </dd>
+                <dt>
+                    Номерний знак:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(route => key.Key.Driver.BUS.Number_Bus)
+                </dd>
+                <dt>
+                    Кількість місць:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(route => key.Key.Driver.BUS.Num_Seats)
+                </dd>
+                <dt>
+                    Дата останього ТО:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(route => key.Key.Driver.BUS.Date_LastTO)
+                </dd>
+                <dt>
+                    Надійність:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(route => key.Key.Driver.BUS.Reliability)
+                </dd>
+            </dl>
+        </div>    
+    }
+<h4> Інформація про продані квитки</h4>
 <table class="table">
     <tr>
         <th>
-            Початок поїздки
+            Дата поїздки
         </th>
         <th>
-            Кінець поїздки
+            Номер квитка
         </th>
         <th>
-            Відстань
+            Місце посадки
         </th>
         <th>
-            Надійність
+            Пасажир
         </th>
         <th>
-            Маршрут автобуса
+            Ціна
         </th>
-        <th>
-            Марка автобуса
-        </th>
-        <th>
 
-        </th>
     </tr>
-</table>
+
     @foreach (var key in Model)
     {
-        @Html.DisplayFor(route => key.Key.ID_Route)
-        <a>Count @key.Count() </a>
+        <a> <h4>Кількість проданих квитків: @key.Count() </h4> </a>
+            @*<tr>
+            <td>
+                @Html.DisplayFor(route => key.Key.ID_Route)
+            </td>
+            <td>
+                @Html.DisplayFor(route => key.Key.Driver.BUS.Name_Bus)
+                @Html.DisplayFor(route => key.Key.Driver.BUS.Number_Bus)
+
+            </td>
+
+        </tr>*@
         foreach (var item in key)
         {
-            @Html.DisplayFor(route => item.Station.Name_Station)
-            @Html.DisplayFor(route => item.ID_Ticket)
+            <tr>
+                <td>
+                    @Html.DisplayFor(route => item.Date_Sale)
+                </td>
+                <td>
+                    @Html.DisplayFor(route => item.ID_Ticket)
+                </td>
+                <td>
+                    @Html.DisplayFor(route => item.Numb_Seat)
+                </td>
+                <td>
+                    @Html.DisplayFor(route => item.Name_Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(route => item.Price)
+                </td>
+            </tr>
         }
     }
+</table>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-horizontal">
+            <form action="@Url.Action( "Details_Ticket","Reports")" method="GET">
+                <input type="submit" value="Побудувати новий звіт!" />
+            </form>
+        </div>
+    </div>
+</div>
 
-    @*@foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date_Route)
-                @Html.DisplayFor(modelItem => item.Station1)
-                @Html.DisplayFor(modelItem => item.Date_Departure)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date_Arrival)
-                @Html.DisplayFor(modelItem => item.Station2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Distance_)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Reliability_)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Route.ID_Route)
-                @Html.DisplayFor(modelItem => item.StationD)
-                @Html.DisplayFor(modelItem => item.StationA)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name_buses)
-            </td>
-
-            @*<td>
-                @Html.ActionLink("Get Ticket", "Create", "Tickets", new { routeId = item.ID_Route, departure = item.Route.Departure, arrival=item.RouteStation.ID_Station },null)
-            </td>
-        </tr>
-    }*@
 
 
