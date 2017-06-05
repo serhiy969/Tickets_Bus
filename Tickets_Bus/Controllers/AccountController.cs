@@ -9,6 +9,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Tickets_Bus.Models;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.WsFederation;
+using Microsoft.Owin.Security.OpenIdConnect;
+
+using Tickets_Bus.Models;
 
 namespace Tickets_Bus.Controllers
 {
@@ -20,6 +25,21 @@ namespace Tickets_Bus.Controllers
 
         public AccountController()
         {
+        }
+
+        public void SignIn()
+        {
+            // Send a WSFederation sign-in request.
+            if (!Request.IsAuthenticated)
+            {
+                HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" }, WsFederationAuthenticationDefaults.AuthenticationType);
+            }
+        }
+        public void SignOut()
+        {
+            // Send a WSFederation sign-out request.
+            HttpContext.GetOwinContext().Authentication.SignOut(
+                WsFederationAuthenticationDefaults.AuthenticationType, CookieAuthenticationDefaults.AuthenticationType);
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -68,14 +88,63 @@ namespace Tickets_Bus.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(model);
+
+                var user = await UserManager.FindAsync(model.Email, model.Password);
+                if (user != null)
+                {
+                    //await UserManager.SignInAsync(user, model.RememberMe);
+                    //await UserManager.SignInAsync(user, model.RememberMe);
+                   await SignInManager.SignInAsync(user, model.RememberMe,  rememberBrowser: false);
+                    // Variables to store MFA results
+                    string otp = "";
+                    int callStatus = 0;
+                    int errorId = 0;
+
+                    // Prepare the MFA Parameters
+                    PfAuthParams pfAuthParams = new PfAuthParams();
+                    pfAuthParams.CountryCode = user.CountryCode;
+                    pfAuthParams.Phone = user.Phone;
+                    pfAuthParams.Pin = user.PIN.ToString();
+
+                    // Load the certificate
+                    pfAuthParams.CertFilePath = System.Web.HttpContext.Current.Server.MapPath("~/pf/certs/cert_key.p12");
+
+                    // Choose one of the below methods for authentication
+                    pfAuthParams.Mode = pf_auth.MODE_STANDARD; // a phone call without a pin
+                    //pfAuthParams.Mode = pf_auth.MODE_PIN; // pin
+                    //pfAuthParams.Mode = pf_auth.MODE_VOICEPRINT; // voice print
+                    //pfAuthParams.Mode = pf_auth.MODE_SMS_TWO_WAY_OTP; // sms him a one time password that he has to send back
+                    //pfAuthParams.Mode = pf_auth.MODE_SMS_TWO_WAY_OTP_PLUS_PIN; // sms him a one time password that he has to send back + pin
+
+                    // If using SMS, set the below according to the SMS mode
+                    //pfAuthParams.SmsText = "<$otp$>\nReply with this one-time passcode to complete your authentication.";
+                    //pfAuthParams.SmsText = "<$otp$>\nReply with this one-time passcode and your PIN to complete your authentication.";
+
+                    // Call the MFA Provider
+                    // the return value from the function is a boolean that is the result of
+                    // the authentication.  Two out arguments are also returned.  The first is the
+                    // result of the phonecall itself, the second is the result of the connection
+                    // with the backend.  See call_results.txt for a list of call results
+                    // and descriptions that correspond to value returned.
+                    bool mfaResult = pf_auth.pf_authenticate(pfAuthParams, out otp, out callStatus, out errorId);
+
+                    // If MFA succeeded
+                    if (mfaResult == true)
+                        return RedirectToLocal(returnUrl);
+                    else
+                        ModelState.AddModelError("", "Multi-factor Authentication failed.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid username or password.");
+                }
             }
 
             // Сбои при входе не приводят к блокированию учетной записи
             // Чтобы ошибки при вводе пароля инициировали блокирование учетной записи, замените на shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -151,7 +220,7 @@ namespace Tickets_Bus.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, CountryCode = model.CountryCode, PIN = model.PIN, Phone = model.Phone};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

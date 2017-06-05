@@ -79,6 +79,10 @@ namespace Tickets_Bus.Models
         [Display(Name = "Подтверждение пароля")]
         [Compare("Password", ErrorMessage = "Пароль и его подтверждение не совпадают.")]
         public string ConfirmPassword { get; set; }
+
+        public string CountryCode { get; set; }
+        public string Phone { get; set; }
+        public int PIN { get; set; }
     }
 
     public class ResetPasswordViewModel

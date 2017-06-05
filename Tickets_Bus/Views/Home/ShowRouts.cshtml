@@ -62,9 +62,9 @@
             <td>
                 @Html.ActionLink("Отримати квиток", "Create", "Home", new {routeId = item.ID_Route, departure = item.Route.Departure, arrival = item.RouteStation.ID_Station}, null)
             </td>
-            <td>
+            @*<td>
                 @Html.ActionLink("Details квиток", "Details", "Home", new { routeId = item.ID_Route, departure = item.Route.Departure, arrival = item.RouteStation.ID_Station }, null)
-            </td>
+            </td>*@
         </tr>
     }
 

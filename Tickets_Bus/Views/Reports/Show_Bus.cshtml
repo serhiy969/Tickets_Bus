@@ -1,12 +1,12 @@
 ﻿
 @using Tickets_Bus.Models
 @model List<DriverDetails>
-{
-    ViewBag.Title = "Index";
-}
+@*{
+    ViewBag.Title = Index;
+}*@
 
-<h2>Автобуси</h2>
-
+<h2>Звіт про автобуси у яких кількість місць: @ViewBag.Num </h2>
+<a><h3>Кількість автобусів: @Model.Count</h3></a>
 <table class="table">
     <tr>
         <th>

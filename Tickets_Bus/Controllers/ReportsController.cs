@@ -77,7 +77,7 @@ namespace Tickets_Bus.Controllers
                      join st2 in db.Stations on rts.ID_Station equals st2.ID_Station
                      join dr in db.Drivers on rou.ID_Driver equals dr.ID_Driver
                      join bs in db.Buses on dr.ID_bus equals bs.ID_Bus
-                     where rts.ID_Date_Route == dt   
+                     where rts.ID_Date_Route == dt         
                      orderby bs.Reliability ascending
                      select new RouteViewModel()
                      {
@@ -154,7 +154,7 @@ namespace Tickets_Bus.Controllers
                          Date_LastTO = r.Date_LastTO
                      }).ToList();
             ;
-           
+            ViewBag.Num = model.Num_Seats;
             return View(a);
 
         }
@@ -220,6 +220,42 @@ namespace Tickets_Bus.Controllers
             //    var c = count.Count.ToString();
             //}
 
+            return View(a);
+
+        }
+        //зВІТ ПРО ВОДІЇВ, ЯКІ ЗДІЙСНИЛИ N-рейсів, та перевезли M-пасажирів
+        public ActionResult Details_Drivers()
+        {
+            ViewBag.Driver_Info = new SelectList(db.Drivers, "ID_Driver","FirstLastName");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details_Drivers([Bind(Include = "ID_Driver,FirstLastName,Phone,ID_bus")] Driver driver)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Drivers.Add(driver);
+
+                db.SaveChanges();
+                return RedirectToAction("Details_Drivers");
+            }
+
+            ViewBag.Driver = new SelectList(db.Drivers, "FirstLastName", "ID_Driver",  driver.ID_Driver);
+
+            return View(driver);
+        }
+
+        public ActionResult Show_Drivers(int? ID_Driver)
+        {
+
+            var a = from rt in db.Route_
+                    where rt.ID_Driver == ID_Driver
+                //    group rt by rt.Driver
+                //into driv
+                //    orderby driv.Count() descending
+                    select rt;
             return View(a);
 
         }

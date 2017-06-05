@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tickets_Bus.Models
@@ -14,7 +15,7 @@ namespace Tickets_Bus.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Route_
+    public partial class Route_ : IEnumerable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Route_()
@@ -46,5 +47,10 @@ namespace Tickets_Bus.Models
         public virtual ICollection<Route_Station> Route_Station { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ticket> Tickets { get; set; }
+
+        public IEnumerator GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
