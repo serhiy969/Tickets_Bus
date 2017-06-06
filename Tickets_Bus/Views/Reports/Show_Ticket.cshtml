@@ -3,10 +3,10 @@
 @model IQueryable<IGrouping<Tickets_Bus.Models.Route_, Tickets_Bus.Models.Ticket>>
 
 @{
-    ViewBag.Title = "Звіт по кількості проданих квитків на окремий рейс";
+    ViewBag.Title = "Звіт про кількість проданих квитків на окремий рейс";
 }
 @*@Html.ActionLink("Побудувати новий звіт", "Details_Ticket")<br>*@
-<h3>Звіт по кількості проданих квитків на окремий рейс </h3>
+<h3>Звіт про кількість проданих квитків на певний рейс </h3>
 <h4> Інформація про рейс</h4>
 @foreach (var key in Model)
     {

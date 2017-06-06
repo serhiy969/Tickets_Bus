@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
+@*@if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
@@ -19,4 +19,44 @@ else
         <li>@Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
+}*@	  
+
+@if (Request.IsAuthenticated)
+{
+    <text>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="navbar-text">
+                Hello, @User.Identity.Name!
+            </li>
+            <li>
+                @Html.ActionLink("Sign out", "SignOut", "Account")
+            </li>
+        </ul>
+    </text>
 }
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("SignIn ", "SignIn", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
+
+@*@if (Request.IsAuthenticated) 
+{ 
+    <text> 
+        <ul class="nav navbar-nav navbar-right"> 
+            <li class="navbar-text"> 
+                Hello, @User.Identity.Name! 
+            </li> 
+            <li> 
+                @Html.ActionLink("Sign out", "SignOut", "Account") 
+            </li> 
+        </ul> 
+    </text> 
+} 
+else 
+{ 
+    <ul class="nav navbar-nav navbar-right"> 
+        <li>@Html.ActionLink("Sign in", "SignIn", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li> 
+    </ul> 
+}*@ 

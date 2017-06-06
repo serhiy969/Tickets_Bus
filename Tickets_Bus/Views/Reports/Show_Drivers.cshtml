@@ -1,0 +1,68 @@
+﻿@*@using Tickets_Bus.Models
+@model List<RouteViewModel>*@   
+@model IQueryable<Tickets_Bus.Models.Route_>
+
+@{
+    ViewBag.Title = "Звіт";
+}
+@*@Html.ActionLink("Побудувати новий звіт", "Details_Ticket")<br>*@
+<h3>Звіт </h3>
+<h4> Інформація про рейс</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            Номер квитка
+        </th>
+        <th>
+            Місце посадки
+        </th>
+        <th>
+            Пасажир
+        </th>
+        <th>
+            Ціна
+        </th>
+
+    </tr>
+
+    @foreach (var key in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(route => key.ID_Driver)
+            </td>
+
+        </tr>
+        @*<a> <h4>Кількість проданих квитків: @key.Count() </h4> </a>*@
+            @*<tr>
+                <td>
+                @Html.DisplayFor(route => key.Key.ID_Route)
+            </td>
+            <td>
+                @Html.DisplayFor(route => key.Key.Driver.BUS.Name_Bus)
+                @Html.DisplayFor(route => key.Key.Driver.BUS.Number_Bus)       
+        </tr>*@
+        foreach (var item in key)
+        {
+            <tr>
+                <td>
+                    @*@Html.DisplayFor<>(route => item.ID_Driver)*@
+                </td>
+               
+            </tr>
+        }
+    }
+</table>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-horizontal">
+            <form action="@Url.Action( "Details_Drivers","Reports")" method="GET">
+                <input type="submit" value="Побудувати новий звіт!" />
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

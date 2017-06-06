@@ -1,0 +1,50 @@
+﻿@{
+	Layout = null;
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewBag.Title – приложение ASP.NET</title>
+	@Styles.Render("~/Content/css")
+	@Scripts.Render("~/bundles/modernizr")
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/bootstrap")
+
+	<title>Вход в систему</title>
+	<!-- Custom styles for this template -->
+	<style>
+		body {
+			padding-top: 40px;
+			padding-bottom: 40px;
+			background-color: #fafbff;
+			margin-top: 10%;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="container" style="text-align: center;">
+		<img src="~/Content/img/images.png" />
+
+		@using (Html.BeginForm(new { @class = "form-signin", role = "form" }))
+		{
+
+			<h2 class="form-signin-heading">@ViewBag.Title</h2>
+
+			<button class="btn btn-lg btn-primary btn-block">Вход @Html.ActionLink("Sign out", "SignOut", "Account")</button>
+
+		}
+
+
+	</div>
+</body>
+</html>
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}
+
+

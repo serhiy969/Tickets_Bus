@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 namespace Tickets_Bus.Models
@@ -14,7 +15,7 @@ namespace Tickets_Bus.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Ticket
+    public partial class Ticket : IEnumerable
     {
         [Display(Name = "Код Квитка")]
         public int ID_Ticket { get; set; }
@@ -36,5 +37,9 @@ namespace Tickets_Bus.Models
         public virtual Route_ Route_ { get; set; }
         public virtual Station Station { get; set; }
         public virtual Station Station1 { get; set; }
+        public IEnumerator GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

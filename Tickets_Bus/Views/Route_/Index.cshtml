@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Tickets_Bus.Models.Route_>
 
-@{
-    ViewBag.Title = "Index";
-}
+@*@{
+    ViewBag.Title = "Рейси";
+}*@
 
-<h2>Index</h2>
+<h2>Рейси</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Створити", "Create")
 </p>
 <table class="table">
     <tr>
@@ -18,13 +18,13 @@
             @Html.DisplayNameFor(model => model.Date_departure)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Station1.Name_Station)
+           Станція Відправлення
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Date_arrival)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Station.Name_Station)
+           Станція прибуття
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Driver.ID_bus)
@@ -55,9 +55,9 @@
         </td>
 
         <td>
-            @Html.ActionLink("Edit", "Edit", new {id = item.ID_Route}) |
-            @Html.ActionLink("Details", "Details", new {id = item.ID_Route}) |
-            @Html.ActionLink("Delete", "Delete", new {id = item.ID_Route})
+            @Html.ActionLink("Редагувати", "Edit", new {id = item.ID_Route}) |
+            @Html.ActionLink("Деталі", "Details", new {id = item.ID_Route}) |
+            @Html.ActionLink("Видалити", "Delete", new {id = item.ID_Route})
         </td>
     </tr>
 }

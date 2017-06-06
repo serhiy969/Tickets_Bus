@@ -65,6 +65,7 @@ namespace Tickets_Bus.Controllers
             //             ID_Station = rs.ID_Station,
             //             Date_Arrival = rs.Date_arrival
             //         }).ToList();
+
             DateTime dt = Convert.ToDateTime(DateArrival);
             ;
             var a = (from rou in db.Route_
