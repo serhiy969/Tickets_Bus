@@ -29,14 +29,18 @@ namespace Tickets_Bus.Controllers
         public ActionResult Login_Start(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
+            }
+                return View();
         }
         public void SignIn()
         {
             // Send a WSFederation sign-in request.
             if (!Request.IsAuthenticated)
             {
-                HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" }, WsFederationAuthenticationDefaults.AuthenticationType);
+                HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "Home/Index" }, WsFederationAuthenticationDefaults.AuthenticationType);
             }
             //else
             //{
@@ -240,35 +244,67 @@ namespace Tickets_Bus.Controllers
 
         //
         // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, CountryCode = model.CountryCode, PIN = model.PIN, Phone = model.Phone};
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    //при регистрации всем пользователям присваивалась роль "user"
-                    await UserManager.AddToRoleAsync(user.Id, "user");
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+         [HttpPost] 
+        [AllowAnonymous] 
+        [ValidateAntiForgeryToken] 
+        public async Task<ActionResult> Register(RegisterViewModel model) 
+        { 
+            if (ModelState.IsValid) 
+            { 
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email }; 
+                var result = await UserManager.CreateAsync(user, model.Password); 
+                if (result.Succeeded) 
+                { 
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false); 
+ 
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771 
+                    // Send an email with this link 
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id); 
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme); 
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>"); 
+                    //Assign Role to user Here    
+                    await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles); 
+                    //Ends Here  
+                    return RedirectToAction("Index", "Home"); 
+                } 
+                //ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin")) 
+                //                          .ToList(), "Name", "Name"); 
+                AddErrors(result); 
+            } 
+ 
+            // If we got this far, something failed, redisplay form 
+            return View(model); 
+        } 
+ 
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Register(RegisterViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = new ApplicationUser { UserName = model.Email, Email = model.Email, CountryCode = model.CountryCode, PIN = model.PIN, Phone = model.Phone};
+        //        var result = await UserManager.CreateAsync(user, model.Password);
+        //        if (result.Succeeded)
+        //        {
+        //            //при регистрации всем пользователям присваивалась роль "user"
+        //            await UserManager.AddToRoleAsync(user.Id, "user");
+        //            await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
-                    // Дополнительные сведения о том, как включить подтверждение учетной записи и сброс пароля, см. по адресу: http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Отправка сообщения электронной почты с этой ссылкой
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Подтверждение учетной записи", "Подтвердите вашу учетную запись, щелкнув <a href=\"" + callbackUrl + "\">здесь</a>");
+        //            // Дополнительные сведения о том, как включить подтверждение учетной записи и сброс пароля, см. по адресу: http://go.microsoft.com/fwlink/?LinkID=320771
+        //            // Отправка сообщения электронной почты с этой ссылкой
+        //            // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+        //            // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+        //            // await UserManager.SendEmailAsync(user.Id, "Подтверждение учетной записи", "Подтвердите вашу учетную запись, щелкнув <a href=\"" + callbackUrl + "\">здесь</a>");
 
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);
-            }
+        //            return RedirectToAction("Index", "Home");
+        //        }
+        //        AddErrors(result);
+        //    }
 
-            // Появление этого сообщения означает наличие ошибки; повторное отображение формы
-            return View(model);
-        }
+        //    // Появление этого сообщения означает наличие ошибки; повторное отображение формы
+        //    return View(model);
+        //}
 
         //
         // GET: /Account/ConfirmEmail
