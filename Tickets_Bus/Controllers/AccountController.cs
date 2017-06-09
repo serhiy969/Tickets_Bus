@@ -23,9 +23,12 @@ namespace Tickets_Bus.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        ApplicationDbContext context;
+       
 
         public AccountController() : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
+            context = new ApplicationDbContext();
         }
 
         public AccountController(UserManager<ApplicationUser> userManager)
@@ -248,12 +251,15 @@ namespace Tickets_Bus.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr =>
+               new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = list;
             return View();
         }
-
+       
         //
         // POST: /Account/Register
-         [HttpPost] 
+        [HttpPost] 
         [AllowAnonymous] 
         [ValidateAntiForgeryToken] 
         public async Task<ActionResult> Register(RegisterViewModel model) 
@@ -276,8 +282,10 @@ namespace Tickets_Bus.Controllers
                     //Ends Here  
                     return RedirectToAction("Index", "Home"); 
                 }
-                ViewBag.Name =
-                    new SelectList( /*Roles.Where(u => !u.Name.Contains("Admin")*/ UserManager.GetRoles("Admin"));
+                //var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+                //ViewBag.Roles = list;
+                //ViewBag.Name = new SelectList(Roles.GetAllRoles());
+                ViewBag.Name = new SelectList( /*Roles.Where(u => !u.Name.Contains("Admin")*/ UserManager.GetRoles("Admin"));
                 
                 AddErrors(result); 
             } 

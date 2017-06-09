@@ -29,12 +29,12 @@
 			@Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
 		</div>
 	</div>
-	<div class="form-group">
+	@*<div class="form-group">
 		@Html.LabelFor(m => m.PIN, new { @class = "col-md-2 control-label" })
 		<div class="col-md-10">
 			@Html.TextBoxFor(m => m.PIN, new { @class = "form-control" })
 		</div>
-	</div>
+	</div>*@
 	<div class="form-group">
 		@Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
 		<div class="col-md-10">
@@ -51,8 +51,9 @@
 		@Html.Label("user Role", new { @class = "col-md-2 control-label" })
 		<div class="col-md-10">
 			@*@Html.DropDownList("Name")*@
-			@*@Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, " ")*@ 
-			@Html.TextBoxFor(m => m.UserRoles, new { @class = "form-control" })
+			@*@Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, " ")*@	 
+			@Html.DropDownList("UserRoles", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { @class = "form-control" })
+			@*@Html.TextBoxFor(m => m.UserRoles, new { @class = "form-control" })*@
 		</div>
 	</div>
 	<div class="form-group">
