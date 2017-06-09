@@ -10,5 +10,6 @@ namespace Tickets_Bus
         {
             ConfigureAuth(app);
         }
+
     }
 }

@@ -15,7 +15,7 @@ namespace Tickets_Bus
         protected void Application_Start()
         {
             // инициализация базы данных для работи
-            Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
+            //Database.SetInitializer<ApplicationDbContext>(new AppDbInitializer());
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

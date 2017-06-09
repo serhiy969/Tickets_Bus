@@ -5,7 +5,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Tickets_Bus.Models;
@@ -22,9 +24,16 @@ namespace Tickets_Bus.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public AccountController() : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
         }
+
+        public AccountController(UserManager<ApplicationUser> userManager)
+        {
+            UserManager = userManager;
+        }
+
+        public UserManager<ApplicationUser> UserManager { get; private set; }
 
         public ActionResult Login_Start(string returnUrl)
         {
@@ -93,17 +102,17 @@ namespace Tickets_Bus.Controllers
             }
         }
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+        //public ApplicationUserManager UserManager
+        //{
+        //    get
+        //    {
+        //        return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //    }
+        //    private set
+        //    {
+        //        _userManager = value;
+        //    }
+        //}
 
         //
         // GET: /Account/Login
@@ -266,9 +275,10 @@ namespace Tickets_Bus.Controllers
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles); 
                     //Ends Here  
                     return RedirectToAction("Index", "Home"); 
-                } 
-                //ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin")) 
-                //                          .ToList(), "Name", "Name"); 
+                }
+                ViewBag.Name =
+                    new SelectList( /*Roles.Where(u => !u.Name.Contains("Admin")*/ UserManager.GetRoles("Admin"));
+                
                 AddErrors(result); 
             } 
  
@@ -516,6 +526,103 @@ namespace Tickets_Bus.Controllers
             }
 
             ViewBag.ReturnUrl = returnUrl;
+            return View(model);
+        }
+
+        [ChildActionOnly]
+        public ActionResult RemoveAccountList()
+        {
+            var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
+            ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
+            return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
+        }
+        private bool HasPassword()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null)
+            {
+                return user.PasswordHash != null;
+            }
+            return false;
+        }
+
+        public ActionResult Manage(ManageController.ManageMessageId? message)
+        {
+            ViewBag.StatusMessage =
+                message == ManageController.ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageController.ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                : message == ManageController.ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+                : message == ManageController.ManageMessageId.Error ? "An error has occurred."
+                : "";
+            ViewBag.HasLocalPassword = HasPassword();
+            ViewBag.ReturnUrl = Url.Action("Manage");
+            return View();
+        }
+
+        // POST: /Account/Disassociate
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Disassociate(string loginProvider, string providerKey)
+        {
+            ManageController.ManageMessageId? message = null;
+            IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
+            if (result.Succeeded)
+            {
+                message = ManageController.ManageMessageId.RemoveLoginSuccess;
+            }
+            else
+            {
+                message = ManageController.ManageMessageId.Error;
+            }
+            return RedirectToAction("Manage", new { Message = message });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Manage(ManageUserViewModel model)
+        {
+            bool hasPassword = HasPassword();
+            ViewBag.HasLocalPassword = hasPassword;
+            ViewBag.ReturnUrl = Url.Action("Manage");
+            if (hasPassword)
+            {
+                if (ModelState.IsValid)
+                {
+                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Manage", new { Message = ManageController.ManageMessageId.ChangePasswordSuccess });
+                    }
+                    else
+                    {
+                        AddErrors(result);
+                    }
+                }
+            }
+            else
+            {
+                // User does not have a password so remove any validation errors caused by a missing OldPassword field
+                ModelState state = ModelState["OldPassword"];
+                if (state != null)
+                {
+                    state.Errors.Clear();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Manage", new { Message = ManageController.ManageMessageId.SetPasswordSuccess });
+                    }
+                    else
+                    {
+                        AddErrors(result);
+                    }
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
