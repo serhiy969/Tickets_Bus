@@ -23,6 +23,7 @@ namespace Tickets_Bus.Controllers
             var sd = User.Identity.Name;
 
             var role = User.IsInRole("user");
+            var role2 = User.IsInRole("admin");
 
             var route_ = db.Route_.Include(r => r.Station).Include(r => r.Station1);
             ViewBag.Arrival = new SelectList(db.Stations, "ID_Station", "Name_Station");

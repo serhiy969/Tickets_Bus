@@ -3,19 +3,23 @@
 	ViewBag.Title = "Create";
 }
 
-<h2>Create Role</h2>
-@Html.ActionLink("List Roles", "Index") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
+<h2>Додати роль</h2>
+@Html.ActionLink("Список ролей", "Index") | @Html.ActionLink("Управління ролі користувача", "ManageUserRoles")
 <hr />
 @using (Html.BeginForm())
 {
 	@*@Html.AntiForgeryToken()*@
 	@Html.ValidationSummary(true)
-
-	<div>
-		Role name
+	<div class="form-group"  >
+			@Html.Label("Iм'я ролі", new { @class = "col-md-2 control-label", style = "width: 60% " })
+		<div class="col-md-10">	 
+		@Html.TextBox("RoleName", " ", new { @class = "form-control" })
+		</div>
 	</div>
-	<p>
-		@Html.TextBox("RoleName")
-	</p>
-	<input type="submit" value="Save" />
+	<div class="form-group">
+		<div class="col-md-offset-2 col-md-10" style="margin-left: 0%; margin-top: 3px; " >
+			<input type="submit" class="btn btn-default" value="Зберегти" />
+		</div>
+	</div>
+	
 }

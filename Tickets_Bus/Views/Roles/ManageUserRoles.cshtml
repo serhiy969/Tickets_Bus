@@ -3,11 +3,11 @@
 	ViewBag.Title = "ManageUserRoles";
 }
 
-<h2>Manage User Roles</h2>
-@Html.ActionLink("Create New Role", "Create") | @Html.ActionLink("Create New User", "Register","Account")| @Html.ActionLink("Manage User Role", "ManageUserRoles")
+<h2>Управління ролями користувача</h2>
+@Html.ActionLink("Додати нову роль", "Create") | @Html.ActionLink("Додати нового користувача", "Register","Account")| @Html.ActionLink("Управління ролі користувача", "ManageUserRoles")
 <hr />
 
-<h2>Role Add to User</h2>
+<h2>Додати роль користувача</h2>
 
 @using (Html.BeginForm("RoleAddToUser", "Roles"))
 {
@@ -20,23 +20,23 @@
 
 	</p>
 
-	<input type="submit" value="Save" />
+	<input type="submit" class="btn btn-default" value="Зберегти" />
 }
 <hr />
-<h3>Get Roles for a User</h3>
+<h3>Отримати ролі для користувача</h3>
 @using (Html.BeginForm("GetRoles", "Roles"))
 {
 	@*@Html.AntiForgeryToken()*@
 	<p>
 		Username : @Html.TextBox("UserName")
-		<input type="submit" value="Get Roles for this User" />
+		<input type="submit" class="btn btn-default" value="Отримати ролі для цього користувача" />
 	</p>
 }
 
 @if (ViewBag.RolesForThisUser != null)
 {
 	<div style="background-color:yellow;">
-		<h3>Roles for this user </h3>
+		<h3>Ролі для цього користувача </h3>
 		<ol>
 			@foreach (string s in ViewBag.RolesForThisUser)
 			{
@@ -47,7 +47,7 @@
 }
 
 <hr />
-<h3>Delete A User from a Role</h3>
+<h3>Видалення користувача з ролі</h3>
 
 @using (Html.BeginForm("DeleteRoleForUser", "Roles"))
 {
@@ -60,5 +60,5 @@
 
 	</p>
 
-	<input type="submit" value="Delete this user from Role" />
+	<input type="submit" class="btn btn-default" value="Видалити користувача з ролі" />
 }

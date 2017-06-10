@@ -261,7 +261,7 @@ namespace Tickets_Bus.Controllers
         // POST: /Account/Register
         [HttpPost] 
         [AllowAnonymous] 
-        [ValidateAntiForgeryToken] 
+        //[ValidateAntiForgeryToken] 
         public async Task<ActionResult> Register(RegisterViewModel model) 
         { 
             if (ModelState.IsValid) 
@@ -285,7 +285,7 @@ namespace Tickets_Bus.Controllers
                 //var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
                 //ViewBag.Roles = list;
                 //ViewBag.Name = new SelectList(Roles.GetAllRoles());
-                ViewBag.Name = new SelectList( /*Roles.Where(u => !u.Name.Contains("Admin")*/ UserManager.GetRoles("Admin"));
+                //ViewBag.Name = new SelectList( /*Roles.Where(u => !u.Name.Contains("Admin")*/ UserManager.GetRoles("Admin"));
                 
                 AddErrors(result); 
             } 

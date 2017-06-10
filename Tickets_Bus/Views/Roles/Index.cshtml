@@ -4,17 +4,18 @@
 	ViewBag.Title = "Index";
 }
 
-<h2>Roles Listing </h2>
+<h2>Список ролей </h2>
 
-@Html.ActionLink("Create New Role", "Create") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
-<hr />
-<div>
+@Html.ActionLink("Додати нову роль", "Create") | @Html.ActionLink("Управління ролі користувача", "ManageUserRoles")
+<hr />	
+
+<div class="form-horizontal" style="width: 30%">
 	@foreach (var role in Model)
 	{
-		<p>
-			<strong>@role.Name | </strong>
-			<span onclick="return confirm('Are you sure to delete?')"><a href="/Roles/Delete?RoleName=@role.Name" class="delLink" style="color:red;">Delete</a></span> |
-			@Html.ActionLink("Edit", "Edit", new { roleName = @role.Name })
-		</p>
+		<div style="margin-top: 14px">
+			<strong class="form-control" style="margin-bottom: 5px" >@role.Name</strong>
+			<span onclick="return confirm('Are you sure to delete?')"><a href="/Roles/Delete?RoleName=@role.Name" class="btn btn-default" style="color:red;">Видалити</a></span> 
+			@Html.ActionLink("Редагувати", "Edit", new { roleName = @role.Name }, new { @class="btn btn-default"})
+		</div>	
 	}
 </div>
