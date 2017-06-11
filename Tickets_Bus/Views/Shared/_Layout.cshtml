@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Tickets_Bus.Controllers
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -18,7 +19,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				@if (User.IsInRole("user, user2"))
+				@if (AccountController.UserRoles("simple_user"))
 				{
 					@Html.ActionLink("Пошук квитків", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 				}
@@ -27,12 +28,12 @@
 				<ul class="nav navbar-nav">
 					@*@if (User.IsInRole("admin"))*@
 					@*{*@
-						<li>@Html.ActionLink("Керування користувачами", "ManageUserRoles", "Roles")</li>
+						@*<li>@Html.ActionLink("Керування користувачами", "ManageUserRoles", "Roles")</li>*@
 					@*}*@
 
 
-					@if (User.IsInRole("user, user2"))
-					{
+					@*@if (User.IsInRole("user, user2"))
+					{*@
 						<li>@Html.ActionLink("Квитки", "Index", "Tickets")</li>
 						<li>@Html.ActionLink("Рейси", "Index", "Route_")</li>
 						<li>@Html.ActionLink("Рейси_Станції", "Index", "Route_Station")</li>
@@ -58,7 +59,7 @@
 							</ul>
 
 						</li>
-					}
+					@*}*@
 				</ul>
 
 				@Html.Partial("_LoginPartial")

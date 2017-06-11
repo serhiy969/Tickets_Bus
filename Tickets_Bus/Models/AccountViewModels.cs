@@ -83,8 +83,8 @@ namespace Tickets_Bus.Models
 
     public class RegisterViewModel
     {
-        [Required]
-        [Display(Name = "UserRoles")]
+
+      
         public string UserRoles { get; set; }
 
         [Required]
@@ -103,7 +103,10 @@ namespace Tickets_Bus.Models
         [Compare("Password", ErrorMessage = "Пароль и его подтверждение не совпадают.")]
         public string ConfirmPassword { get; set; }
 
+      
         public string CountryCode { get; set; }
+
+       
         public string Phone { get; set; }
         public int PIN { get; set; }
     }

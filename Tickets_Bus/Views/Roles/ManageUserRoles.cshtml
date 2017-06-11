@@ -3,11 +3,11 @@
 	ViewBag.Title = "ManageUserRoles";
 }
 
-<h2>Управління ролями користувача</h2>
-@Html.ActionLink("Додати нову роль", "Create") | @Html.ActionLink("Додати нового користувача", "Register","Account")| @Html.ActionLink("Управління ролі користувача", "ManageUserRoles")
+<h2>Управління користувачами</h2>
+@Html.ActionLink("Додати нову групу", "Create") | @Html.ActionLink("Додати нового користувача", "Register","Account")| @Html.ActionLink("Управління користувачами", "ManageUserRoles")
 <hr />
 
-<h2>Додати роль користувача</h2>
+<h2>Додати користувача в групу</h2>
 
 @using (Html.BeginForm("RoleAddToUser", "Roles"))
 {
@@ -15,28 +15,27 @@
 	@Html.ValidationSummary(true)
 
 	<p>
-		Username : @Html.TextBox("UserName")
-		Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")
-
-	</p>
+		Адрес електронної пошти : @*@Html.TextBox("UserName")*@  @Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.Users, "Select ...")
+		Назва групи : @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")
+	</p>	
 
 	<input type="submit" class="btn btn-default" value="Зберегти" />
 }
 <hr />
-<h3>Отримати ролі для користувача</h3>
+<h3>Отримати групу для користувача</h3>
 @using (Html.BeginForm("GetRoles", "Roles"))
 {
 	@*@Html.AntiForgeryToken()*@
 	<p>
-		Username : @Html.TextBox("UserName")
-		<input type="submit" class="btn btn-default" value="Отримати ролі для цього користувача" />
+		Адрес електронної пошти: @Html.TextBox("UserName")
+		<input type="submit" class="btn btn-default" value="Отримати групи для користувача" />
 	</p>
 }
 
 @if (ViewBag.RolesForThisUser != null)
 {
 	<div style="background-color:yellow;">
-		<h3>Ролі для цього користувача </h3>
+		<h3>Групи для користувача </h3>
 		<ol>
 			@foreach (string s in ViewBag.RolesForThisUser)
 			{
@@ -47,7 +46,7 @@
 }
 
 <hr />
-<h3>Видалення користувача з ролі</h3>
+<h3>Видалення користувача з групи</h3>
 
 @using (Html.BeginForm("DeleteRoleForUser", "Roles"))
 {
@@ -55,10 +54,10 @@
 	@Html.ValidationSummary(true)
 
 	<p>
-		Username : @Html.TextBox("UserName")
-		Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")
+		Адрес електронної пошти : @Html.TextBox("UserName")
+		Назва групи : @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")
 
 	</p>
 
-	<input type="submit" class="btn btn-default" value="Видалити користувача з ролі" />
+	<input type="submit" class="btn btn-default" value="Видалити користувача з групи" />
 }

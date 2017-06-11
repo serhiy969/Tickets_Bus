@@ -4,9 +4,9 @@
 	ViewBag.Title = "Edit";
 }
 
-<h2>Зміна ролі</h2>
+<h2>Зміна групи</h2>
 
-@Html.ActionLink("Список ролей", "Index") | @Html.ActionLink("Управління ролі користувача", "ManageUserRoles")
+@Html.ActionLink("Список груп", "Index") | @Html.ActionLink("Управління користувачами", "ManageUserRoles")
 <hr />
 @using (Html.BeginForm( new { @class = "form-horizontal", role = "form" }))
 {
@@ -14,7 +14,7 @@
 	@Html.ValidationSummary(true)
 	@Html.HiddenFor(model => model.Id)
 	<div class="form-group">
-		@Html.Label("Iм'я ролі", new { @class = "col-md-2 control-label" })	
+		@Html.Label("Назва групи", new { @class = "col-md-2 control-label" })	
 		<div  class="col-md-10">
 			@Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
 		</div>

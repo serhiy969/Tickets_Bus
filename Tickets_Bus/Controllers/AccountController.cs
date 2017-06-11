@@ -18,7 +18,7 @@ using Tickets_Bus.Models;
 
 namespace Tickets_Bus.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -26,17 +26,17 @@ namespace Tickets_Bus.Controllers
         ApplicationDbContext context;
        
 
-        public AccountController() : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+        public AccountController() : this(new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
             context = new ApplicationDbContext();
         }
-
-        public AccountController(UserManager<ApplicationUser> userManager)
+        //_userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        public AccountController(ApplicationUserManager userManager)
         {
             UserManager = userManager;
         }
 
-        public UserManager<ApplicationUser> UserManager { get; private set; }
+        //public UserManager<ApplicationUser> UserManager { get; private set; }
 
         public ActionResult Login_Start(string returnUrl)
         {
@@ -45,8 +45,45 @@ namespace Tickets_Bus.Controllers
             {
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
+            else
+            {
+                
+            }
                 return View();
         }
+        public static bool UserRoles(string role)
+        {
+           
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+
+            ApplicationDbContext db2 = new ApplicationDbContext();
+
+            string id = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindByName(userName).Id;
+            var roleAdmin = (from r in db2.Roles where r.Name.Contains(role) select r).FirstOrDefault();
+            var usersAdmin = db2.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(roleAdmin.Id)).ToList();
+
+            var roleUser = (from r in db2.Roles where r.Name.Contains(role) select r).FirstOrDefault();
+            var usersUser = db2.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(roleUser.Id)).ToList();
+
+            var roleCustomUser = (from r in db2.Roles where r.Name.Contains(role) select r).FirstOrDefault();
+            var usersCustomUser = db2.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(roleCustomUser.Id)).ToList();
+
+            if (usersAdmin.Find(x => x.Id == id) != null)
+            {
+                return true;
+            }
+            if (usersUser.Find(x => x.Id == id) != null)
+            {
+                return true;
+            }
+            if (usersCustomUser.Find(x => x.Id == id) != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public void SignIn()
         {
             // Send a WSFederation sign-in request.
@@ -105,17 +142,17 @@ namespace Tickets_Bus.Controllers
             }
         }
 
-        //public ApplicationUserManager UserManager
-        //{
-        //    get
-        //    {
-        //        return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //    }
-        //    private set
-        //    {
-        //        _userManager = value;
-        //    }
-        //}
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         //
         // GET: /Account/Login

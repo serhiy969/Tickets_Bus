@@ -20,16 +20,45 @@ namespace Tickets_Bus.Controllers
         private Tickets_BussEntities db = new Tickets_BussEntities();
         public ActionResult Index()
         {
-            var sd = User.Identity.Name;
 
-            var role = User.IsInRole("user");
+            //var userName = User.Identity.Name;
+            ////string userId = User.Identity.GetUserId();
+            //ApplicationDbContext db2 = new ApplicationDbContext();
+            //string id = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().FindByName(userName).Id;
+            //var roleAdmin = (from r in db2.Roles where r.Name.Contains("admin") select r).FirstOrDefault();
+            //var usersAdmin = db2.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(roleAdmin.Id)).ToList();
+
+            //var roleUser = (from r in db2.Roles where r.Name.Contains("simple_user") select r).FirstOrDefault();
+            //var usersUser = db2.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(roleUser.Id)).ToList();
+
+            //var roleCustomUser = (from r in db2.Roles where r.Name.Contains("custom_user") select r).FirstOrDefault();
+            //var usersCustomUser = db2.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(roleCustomUser.Id)).ToList();
+
+            //if (usersAdmin.Find(x => x.Id == id) != null)
+            //{
+
+            //}
+            //if (usersUser.Find(x => x.Id == id) != null)
+            //{
+            //    // User is in the Admin Role
+            //}
+            //if (usersCustomUser.Find(x => x.Id == id) != null)
+            //{
+            //    // User is in the Admin Role
+            //}
+
+
+            //var role = User.IsInRole("simple_user");
             var role2 = User.IsInRole("admin");
+            var role3 = User.IsInRole("custom_user");
 
             var route_ = db.Route_.Include(r => r.Station).Include(r => r.Station1);
             ViewBag.Arrival = new SelectList(db.Stations, "ID_Station", "Name_Station");
             ViewBag.Departure = new SelectList(db.Stations, "ID_Station", "Name_Station");
             return View();
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -223,4 +252,41 @@ namespace Tickets_Bus.Controllers
             return View(roles);
         }
     }
+
+    //public static class Additional
+    //{
+    //    public static bool UserRoles()
+    //    {
+    //        var userName = User.Identity.Name;
+
+
+    //        //string userId = User.Identity.GetUserId();
+    //        ApplicationDbContext db2 = new ApplicationDbContext();
+
+    //        string id = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().FindByName(userName).Id;
+    //        var roleAdmin = (from r in db2.Roles where r.Name.Contains("admin") select r).FirstOrDefault();
+    //        var usersAdmin = db2.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(roleAdmin.Id)).ToList();
+
+    //        var roleUser = (from r in db2.Roles where r.Name.Contains("simple_user") select r).FirstOrDefault();
+    //        var usersUser = db2.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(roleUser.Id)).ToList();
+
+    //        var roleCustomUser = (from r in db2.Roles where r.Name.Contains("custom_user") select r).FirstOrDefault();
+    //        var usersCustomUser = db2.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(roleCustomUser.Id)).ToList();
+
+    //        if (usersAdmin.Find(x => x.Id == id) != null)
+    //        {
+
+    //        }
+    //        if (usersUser.Find(x => x.Id == id) != null)
+    //        {
+    //            // User is in the Admin Role
+    //        }
+    //        if (usersCustomUser.Find(x => x.Id == id) != null)
+    //        {
+    //            // User is in the Admin Role
+    //        }
+
+    //        return true;
+    //    }
+    //}
 }

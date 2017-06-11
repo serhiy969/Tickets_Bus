@@ -80,6 +80,13 @@ namespace Tickets_Bus.Controllers
             // prepopulat roles for the view dropdown
             var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr =>
                 new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+
+            var user = context.Users.OrderBy(r => r.UserName).ToList().Select(rr => new SelectListItem
+            {
+                Value = rr.UserName.ToString(),
+                Text = rr.UserName
+            }).ToList();
+            ViewBag.Users = user;
             ViewBag.Roles = list;
             return View();
         }
@@ -92,12 +99,23 @@ namespace Tickets_Bus.Controllers
             return RedirectToAction("Index");
         }
 
-
+        //public ActionResult RoleAddToUser()
+        //{
+        //    //var list11 = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+        //    //var list = context.Users.OrderBy(r => r.UserName).ToList().Select(rr => new SelectListItem
+        //    //{
+        //    //    Value = rr.UserName.ToString(),
+        //    //    Text = rr.UserName
+        //    //}).ToList();
+        //    //ViewBag.Roles = list;
+        //    return View();
+        //}
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult RoleAddToUser(string UserName, string RoleName)
         {
             ApplicationUser user1 = context.Users.FirstOrDefault(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase));
+           
             var account = new AccountController();
             account.UserManager.AddToRole(user1?.Id, RoleName);
 
